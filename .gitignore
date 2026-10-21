@@ -1,0 +1,18 @@
+# Secrets & Environment variables
+.env
+
+# Python cache & virtualenv
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+env/
+venv/
+.venv/
+
+# Database (optional - keep or ignore depending on preference)
+# store.db
+
+# OS files
+.DS_Store
+Thumbs.db

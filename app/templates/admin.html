@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElectroMobile Store - Unified Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-slate-900/80 backdrop-blur border-b border-slate-800 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
+          <i class="fa-solid fa-bolt text-lg"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+            ElectroMobile <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Bot & Web Engine</span>
+          </h1>
+          <p class="text-xs text-slate-400">Inventory, Repair Jobs & WhatsApp Integration</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="/docs" target="_blank" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-code"></i> Swagger API Docs
+        </a>
+        <a href="/health" target="_blank" class="text-xs px-3 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Server Online
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- KPI Metric Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="stats-grid">
+      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Total Products</span>
+          <i class="fa-solid fa-mobile-screen text-indigo-400"></i>
+        </div>
+        <div class="text-3xl font-extrabold text-white" id="stat-products">--</div>
+        <div class="text-xs text-slate-400 mt-1" id="stat-brands">-- Brands</div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Active Repairs</span>
+          <i class="fa-solid fa-screwdriver-wrench text-amber-400"></i>
+        </div>
+        <div class="text-3xl font-extrabold text-white" id="stat-repairs">--</div>
+        <div class="text-xs text-amber-400/80 mt-1" id="stat-ready-repairs">-- ready for pickup</div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Active Holds</span>
+          <i class="fa-solid fa-clock text-cyan-400"></i>
+        </div>
+        <div class="text-3xl font-extrabold text-white" id="stat-reservations">--</div>
+        <div class="text-xs text-slate-400 mt-1">24-Hour In-Store Holds</div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Categories</span>
+          <i class="fa-solid fa-layer-group text-emerald-400"></i>
+        </div>
+        <div class="text-3xl font-extrabold text-white" id="stat-categories">--</div>
+        <div class="text-xs text-slate-400 mt-1">Mobile & Appliances</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="flex border-b border-slate-800 space-x-2">
+      <button onclick="switchTab('inventory')" id="tab-inventory" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-emerald-400 text-emerald-400 flex items-center gap-2">
+        <i class="fa-solid fa-boxes-stacked"></i> Products Inventory (<span id="tab-product-count">0</span>)
+      </button>
+      <button onclick="switchTab('repairs')" id="tab-repairs" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
+        <i class="fa-solid fa-wrench"></i> Repair Jobs
+      </button>
+      <button onclick="switchTab('reservations')" id="tab-reservations" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
+        <i class="fa-solid fa-ticket"></i> Customer Holds
+      </button>
+      <button onclick="switchTab('website')" id="tab-website" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
+        <i class="fa-solid fa-globe"></i> Website Connect Guide
+      </button>
+    </div>
+
+    <!-- TAB 1: INVENTORY -->
+    <section id="panel-inventory" class="space-y-4">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <div class="relative w-full sm:w-80">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-sm"></i>
+            <input type="text" id="inventory-search" oninput="debounceSearch()" placeholder="Search Samsung, Moto, Vivo, Mixer..." class="w-full bg-slate-950 border border-slate-700 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+          </div>
+          <select id="brand-filter" onchange="loadProducts()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-emerald-500">
+            <option value="">All Brands</option>
+            <option value="Samsung">Samsung</option>
+            <option value="Motorola">Motorola</option>
+            <option value="Vivo">Vivo</option>
+          </select>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <div class="text-xs text-slate-400" id="product-pagination-info">
+            Showing products
+          </div>
+          <button onclick="openAddModal()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-lg shadow-emerald-600/20">
+            <i class="fa-solid fa-plus"></i> Add Model
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="products-container">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- TAB 2: REPAIR JOBS -->
+    <section id="panel-repairs" class="hidden space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+          <h2 class="font-bold text-white text-base flex items-center gap-2">
+            <i class="fa-solid fa-screwdriver-wrench text-amber-400"></i> Repair Job Sheets & Service Tickets
+          </h2>
+          <span class="text-xs text-slate-400">Live synchronization with customer WhatsApp status checks</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-300">
+            <thead class="bg-slate-950 text-xs uppercase font-semibold text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="p-4">Ticket #</th>
+                <th class="p-4">Customer</th>
+                <th class="p-4">Device</th>
+                <th class="p-4">Issue Description</th>
+                <th class="p-4">Status</th>
+                <th class="p-4">Final Bill</th>
+                <th class="p-4">Action</th>
+              </tr>
+            </thead>
+            <tbody id="repairs-table-body" class="divide-y divide-slate-800">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: RESERVATIONS -->
+    <section id="panel-reservations" class="hidden space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+        <div class="p-4 border-b border-slate-800">
+          <h2 class="font-bold text-white text-base flex items-center gap-2">
+            <i class="fa-solid fa-ticket text-cyan-400"></i> 24-Hour Counter Hold Vouchers
+          </h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-300">
+            <thead class="bg-slate-950 text-xs uppercase font-semibold text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="p-4">Voucher Code</th>
+                <th class="p-4">Customer Phone</th>
+                <th class="p-4">Reserved Item</th>
+                <th class="p-4">Counter Price</th>
+                <th class="p-4">Status</th>
+                <th class="p-4">Reserved Time</th>
+              </tr>
+            </thead>
+            <tbody id="reservations-table-body" class="divide-y divide-slate-800">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: WEBSITE INTEGRATION GUIDE -->
+    <section id="panel-website" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-code-merge"></i>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">How to Connect This Bot to Your Website</h2>
+            <p class="text-xs text-slate-400">Your bot and website share the same live database and product catalog</p>
+          </div>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed">
+          This FastAPI engine provides full <strong>REST APIs with CORS enabled</strong>. Any frontend website (React, Next.js, Vue, WordPress, Shopify, or plain HTML) can call these endpoints to display live products, accept reservations, and allow customers to track repair tickets online.
+        </p>
+
+        <!-- REST Endpoints List -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">GET /api/products</span>
+            <p class="text-xs text-slate-400">Fetch catalog with search, brand filters, and pagination.</p>
+          </div>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">GET /api/categories</span>
+            <p class="text-xs text-slate-400">Fetch categories (Samsung, Motorola, Vivo, Appliances).</p>
+          </div>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-blue-500/20 text-blue-400">POST /api/reservations</span>
+            <p class="text-xs text-slate-400">Allow website visitors to reserve any product for 24 hours.</p>
+          </div>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">GET /api/repairs/{ticket_number}</span>
+            <p class="text-xs text-slate-400">Embed a repair tracker widget right on your website.</p>
+          </div>
+        </div>
+
+        <!-- Code Snippet -->
+        <div class="pt-4 space-y-2">
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Example: Fetch Products on Your Website (JavaScript)</span>
+          <pre class="bg-slate-950 p-4 rounded-xl text-xs font-mono text-emerald-300 border border-slate-800 overflow-x-auto">
+// 1. Fetch live products from this bot's backend:
+const res = await fetch("http://localhost:8000/api/products?brand=Samsung");
+const data = await res.json();
+
+// 2. Render items and WhatsApp order button:
+data.items.forEach(product => {
+  console.log(product.name, product.price, product.image_url);
+  // Each product includes a pre-made WhatsApp Click-to-Chat link:
+  // &lt;a href="${product.whatsapp_order_link}" target="_blank"&gt;Order on WhatsApp&lt;/a&gt;
+});</pre>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    let searchTimeout = null;
+
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+        document.getElementById('stat-products').innerText = data.total_products;
+        document.getElementById('stat-brands').innerText = `${data.brands_count} Brands (${data.brands.slice(0, 3).join(', ')})`;
+        document.getElementById('stat-repairs').innerText = data.active_repairs;
+        document.getElementById('stat-ready-repairs').innerText = `${data.ready_for_pickup_repairs} ready for pickup`;
+        document.getElementById('stat-reservations').innerText = data.active_reservations;
+        document.getElementById('stat-categories').innerText = data.total_categories;
+        document.getElementById('tab-product-count').innerText = data.total_products;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function loadProducts() {
+      const search = document.getElementById('inventory-search').value;
+      const brand = document.getElementById('brand-filter').value;
+      let url = `/api/products?limit=60`;
+      if (search) url += `&search=${encodeURIComponent(search)}`;
+      if (brand) url += `&brand=${encodeURIComponent(brand)}`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      document.getElementById('product-pagination-info').innerText = `Showing ${data.items.length} of ${data.total} products`;
+
+      const container = document.getElementById('products-container');
+      container.innerHTML = data.items.map(p => `
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between hover:border-slate-700 transition">
+          <div class="space-y-3">
+            <div class="flex items-start gap-3">
+              ${p.image_url ? `
+                <img src="${p.image_url}" alt="${p.name}" class="w-20 h-20 object-contain rounded-xl bg-slate-950 p-1.5 border border-slate-800 flex-shrink-0" onerror="this.style.display='none'">
+              ` : `
+                <div class="w-20 h-20 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center text-slate-600 flex-shrink-0">
+                  <i class="fa-solid fa-mobile-screen text-2xl"></i>
+                </div>
+              `}
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-xs px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 font-medium">${p.brand}</span>
+                  ${p.is_featured ? `<span class="text-xs px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20 font-semibold">Featured</span>` : ''}
+                </div>
+                <h3 class="font-bold text-white text-sm mt-1 truncate" title="${p.name}">${p.name}</h3>
+                <p class="text-xs text-slate-400 line-clamp-2 mt-0.5">${p.description || 'No description'}</p>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
+              <div>
+                <span class="text-lg font-extrabold text-emerald-400">₹${p.price.toLocaleString()}</span>
+                ${p.mrp && p.mrp > p.price ? `<span class="text-xs text-slate-500 line-through ml-1.5">₹${p.mrp.toLocaleString()}</span>` : ''}
+              </div>
+              <span class="text-xs font-medium ${p.in_stock ? 'text-emerald-400 bg-emerald-500/10' : 'text-rose-400 bg-rose-500/10'} px-2.5 py-1 rounded-full">
+                ${p.in_stock ? 'In Stock (' + p.stock_quantity + ')' : 'Out of Stock'}
+              </span>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-1.5">
+              <button onclick="openEditModal(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price}, ${p.mrp || 0}, ${p.stock_quantity}, ${p.in_stock})" class="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium flex items-center gap-1 transition">
+                <i class="fa-solid fa-pen text-amber-400"></i> Edit Price
+              </button>
+              <a href="${p.whatsapp_order_link}" target="_blank" class="text-xs px-2.5 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 font-medium flex items-center gap-1 transition">
+                <i class="fa-brands fa-whatsapp"></i> Chat Link
+              </a>
+            </div>
+            <span class="text-xs text-slate-500 font-mono">ID: ${p.id}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function loadRepairs() {
+      const res = await fetch('/api/repairs/REP-1001'); // test load or list
+      // For demo table, we list common tickets:
+      const tickets = ['REP-1001', 'REP-1002', 'REP-1003', 'REP-1004'];
+      const tbody = document.getElementById('repairs-table-body');
+      tbody.innerHTML = '';
+
+      for (const t of tickets) {
+        try {
+          const r = await fetch(`/api/repairs/${t}`);
+          if (r.ok) {
+            const data = await r.json();
+            const badgeColor = {
+              'received': 'bg-slate-800 text-slate-300',
+              'diagnosing': 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20',
+              'in_repair': 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
+              'ready_for_pickup': 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold',
+              'delivered': 'bg-cyan-500/10 text-cyan-400'
+            }[data.status] || 'bg-slate-800 text-slate-300';
+
+            tbody.innerHTML += `
+              <tr class="hover:bg-slate-900/50">
+                <td class="p-4 font-mono font-bold text-white">${data.ticket_number}</td>
+                <td class="p-4">${data.customer_name}</td>
+                <td class="p-4 font-medium text-white">${data.device_model}</td>
+                <td class="p-4 text-xs text-slate-400 max-w-xs truncate">${data.issue_description}</td>
+                <td class="p-4"><span class="text-xs px-2.5 py-1 rounded-full ${badgeColor}">${data.status.replace('_', ' ').toUpperCase()}</span></td>
+                <td class="p-4 font-bold text-emerald-400">₹${data.final_cost || data.estimated_cost || 0}</td>
+                <td class="p-4">
+                  <select onchange="updateTicketStatus('${data.ticket_number}', this.value)" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-200">
+                    <option value="" disabled selected>Update Status</option>
+                    <option value="diagnosing">Diagnosing</option>
+                    <option value="in_repair">In Repair</option>
+                    <option value="ready_for_pickup">Ready for Pickup</option>
+                    <option value="delivered">Delivered</option>
+                  </select>
+                </td>
+              </tr>
+            `;
+          }
+        } catch (e) {}
+      }
+    }
+
+    async function updateTicketStatus(ticketNum, newStatus) {
+      if (!newStatus) return;
+      const res = await fetch(`/api/repairs/${ticketNum}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      });
+      if (res.ok) {
+        alert(`Status for ${ticketNum} updated to ${newStatus}!`);
+        loadRepairs();
+        loadStats();
+      }
+    }
+
+    async function loadReservations() {
+      const res = await fetch('/api/reservations');
+      const data = await res.json();
+      const tbody = document.getElementById('reservations-table-body');
+      tbody.innerHTML = data.map(r => `
+        <tr class="hover:bg-slate-900/50">
+          <td class="p-4 font-mono font-bold text-cyan-400">${r.reservation_code}</td>
+          <td class="p-4">${r.customer_phone}</td>
+          <td class="p-4 text-white font-medium">${r.product_name}</td>
+          <td class="p-4 font-bold text-emerald-400">₹${(r.product_price || 0).toLocaleString()}</td>
+          <td class="p-4"><span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 uppercase font-semibold">${r.status}</span></td>
+          <td class="p-4 text-xs text-slate-400">${r.created_at}</td>
+        </tr>
+      `).join('');
+    }
+
+    function switchTab(tab) {
+      ['inventory', 'repairs', 'reservations', 'website'].forEach(t => {
+        document.getElementById(`panel-${t}`).classList.add('hidden');
+        const btn = document.getElementById(`tab-${t}`);
+        btn.classList.remove('border-emerald-400', 'text-emerald-400');
+        btn.classList.add('border-transparent', 'text-slate-400');
+      });
+
+      document.getElementById(`panel-${tab}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`tab-${tab}`);
+      activeBtn.classList.remove('border-transparent', 'text-slate-400');
+      activeBtn.classList.add('border-emerald-400', 'text-emerald-400');
+
+      if (tab === 'inventory') loadProducts();
+      if (tab === 'repairs') loadRepairs();
+      if (tab === 'reservations') loadReservations();
+    }
+
+    function debounceSearch() {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(loadProducts, 300);
+    }
+
+    // Modals
+    let currentEditId = null;
+
+    function openEditModal(id, name, price, mrp, stock, inStock) {
+      currentEditId = id;
+      document.getElementById('edit-prod-title').innerText = name;
+      document.getElementById('edit-price').value = price;
+      document.getElementById('edit-mrp').value = mrp || '';
+      document.getElementById('edit-stock').value = stock;
+      document.getElementById('edit-instock').checked = inStock;
+      document.getElementById('edit-modal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+      document.getElementById('edit-modal').classList.add('hidden');
+      currentEditId = null;
+    }
+
+    async function saveEditModal() {
+      if (!currentEditId) return;
+      const price = parseFloat(document.getElementById('edit-price').value);
+      const mrp = parseFloat(document.getElementById('edit-mrp').value) || null;
+      const stock = parseInt(document.getElementById('edit-stock').value) || 0;
+      const inStock = document.getElementById('edit-instock').checked;
+
+      const res = await fetch(`/api/products/${currentEditId}`);
+      if (!res.ok) return alert('Failed to fetch product');
+      const prod = await res.json();
+
+      prod.price = price;
+      prod.mrp = mrp;
+      prod.stock_quantity = stock;
+      prod.in_stock = inStock;
+
+      const putRes = await fetch(`/api/products/${currentEditId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(prod)
+      });
+
+      if (putRes.ok) {
+        closeEditModal();
+        loadProducts();
+        alert('Price & Stock updated successfully! The WhatsApp bot will now immediately use this new price.');
+      } else {
+        alert('Error saving changes');
+      }
+    }
+
+    function openAddModal() {
+      document.getElementById('add-modal').classList.remove('hidden');
+    }
+
+    function closeAddModal() {
+      document.getElementById('add-modal').classList.add('hidden');
+    }
+
+    async function saveAddModal() {
+      const brand = document.getElementById('add-brand').value;
+      const name = document.getElementById('add-name').value.trim();
+      const price = parseFloat(document.getElementById('add-price').value);
+      const mrp = parseFloat(document.getElementById('add-mrp').value) || Math.round(price * 1.15);
+      const stock = parseInt(document.getElementById('add-stock').value) || 5;
+      const desc = document.getElementById('add-desc').value.trim();
+      const catId = parseInt(document.getElementById('add-cat').value) || 1;
+
+      if (!name || isNaN(price)) {
+        return alert('Please enter Model Name and Selling Price');
+      }
+
+      const payload = {
+        category_id: catId,
+        brand: brand,
+        name: name,
+        model_number: name,
+        description: desc || `${brand} smartphone with official warranty.`,
+        price: price,
+        mrp: mrp,
+        in_stock: true,
+        stock_quantity: stock,
+        is_featured: true,
+        warranty_info: `1 Year ${brand} Official Warranty`,
+        specifications: `• Brand: ${brand}\n• Model: ${name}\n• Highlights: ${desc}`
+      };
+
+      const res = await fetch('/api/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        closeAddModal();
+        loadProducts();
+        loadStats();
+        alert(`Model '${name}' added to inventory! Customers can now search and order it on WhatsApp.`);
+      } else {
+        alert('Error adding model');
+      }
+    }
+
+    // Initial load
+    loadStats();
+    loadProducts();
+  </script>
+
+  <!-- EDIT MODAL -->
+  <div id="edit-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-white text-base flex items-center gap-2">
+          <i class="fa-solid fa-pen-to-square text-amber-400"></i> Edit Price & Stock
+        </h3>
+        <button onclick="closeEditModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+      </div>
+
+      <div class="text-xs font-semibold text-emerald-400" id="edit-prod-title">Product</div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Selling Price (₹) *</label>
+          <input type="number" id="edit-price" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1">MRP Price (₹)</label>
+          <input type="number" id="edit-mrp" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Stock Quantity</label>
+          <input type="number" id="edit-stock" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+        </div>
+        <div class="flex items-center gap-2 pt-1">
+          <input type="checkbox" id="edit-instock" class="rounded bg-slate-950 border-slate-700 text-emerald-500 focus:ring-0">
+          <label for="edit-instock" class="text-xs text-slate-300">Mark as In Stock</label>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-800">
+        <button onclick="closeEditModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition">Cancel</button>
+        <button onclick="saveEditModal()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD MODEL MODAL -->
+  <div id="add-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-white text-base flex items-center gap-2">
+          <i class="fa-solid fa-plus text-emerald-400"></i> Add New Phone / Product
+        </h3>
+        <button onclick="closeAddModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+      </div>
+
+      <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Brand *</label>
+            <select id="add-brand" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+              <option value="Samsung">Samsung</option>
+              <option value="Motorola">Motorola</option>
+              <option value="Vivo">Vivo</option>
+              <option value="OnePlus">OnePlus</option>
+              <option value="Apple">Apple</option>
+              <option value="Xiaomi">Xiaomi</option>
+              <option value="Realme">Realme</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Category</label>
+            <select id="add-cat" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+              <option value="8">Samsung Galaxy Phones</option>
+              <option value="9">Motorola Phones</option>
+              <option value="10">Vivo Phones</option>
+              <option value="1">General Smartphones</option>
+              <option value="2">Fast Chargers & Cables</option>
+              <option value="3">Audio & Wearables</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Full Model Name & Variant *</label>
+          <input type="text" id="add-name" placeholder="e.g. Samsung Galaxy S27 Ultra (12GB+256GB)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Selling Price (₹) *</label>
+            <input type="number" id="add-price" placeholder="124999" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1">MRP Price (₹)</label>
+            <input type="number" id="add-mrp" placeholder="139999" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Stock Qty</label>
+            <input type="number" id="add-stock" value="5" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Highlights & Key Features</label>
+          <textarea id="add-desc" rows="2" placeholder="e.g. Snapdragon 8 Gen 5, 200MP Quad Camera, 5500mAh battery" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500"></textarea>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-800">
+        <button onclick="closeAddModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition">Cancel</button>
+        <button onclick="saveAddModal()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Add Model</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
