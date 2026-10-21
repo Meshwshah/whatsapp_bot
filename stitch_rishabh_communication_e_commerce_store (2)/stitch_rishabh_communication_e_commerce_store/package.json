@@ -1,0 +1,20 @@
+{
+  "name": "rishabh-communication-store",
+  "version": "1.0.0",
+  "description": "Authorized Tier-1 Flagship Tech Boutique E-Commerce Website",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve .",
+    "deploy": "npx wrangler pages deploy . --project-name=rishabh-communication",
+    "deploy:login": "npx wrangler login"
+  },
+  "keywords": [
+    "ecommerce",
+    "stitch",
+    "sahara-theme",
+    "luxury-tech",
+    "cloudflare-pages"
+  ],
+  "author": "Rishabh Communication",
+  "license": "MIT"
+}

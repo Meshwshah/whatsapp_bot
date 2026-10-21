@@ -225,3 +225,46 @@ def test_api_products_and_categories():
     # Admin page
     admin_res = client.get("/admin")
     assert admin_res.status_code == 200
+
+    # Client config API
+    cfg_res = client.get("/api/config/client")
+    assert cfg_res.status_code == 200
+    assert "whatsapp_link" in cfg_res.json()
+
+    # Create Order API
+    order_payload = {
+        "customer_name": "Aarav Mehta",
+        "customer_phone": "+919898000000",
+        "customer_email": "aarav@example.com",
+        "shipping_address": "402 Tech Heights, Bodakdev",
+        "city": "Ahmedabad",
+        "pincode": "380054",
+        "items": [
+            {"id": "prod_1", "title": "Samsung Galaxy S26 Ultra 5G", "price": 139999.0, "quantity": 1}
+        ],
+        "subtotal": 139999.0,
+        "total_amount": 139999.0,
+        "payment_method": "UPI Instant"
+    }
+    order_res = client.post("/api/orders", json=order_payload)
+    assert order_res.status_code == 201
+    order_data = order_res.json()
+    assert "order_number" in order_data
+    assert "whatsapp_confirm_link" in order_data
+
+    # List Orders API
+    orders_list = client.get("/api/orders")
+    assert orders_list.status_code == 200
+    assert orders_list.json()["total"] >= 1
+
+    # Create VIP Booking API
+    book_payload = {
+        "customer_name": "Priya Patel",
+        "customer_phone": "+919876543210",
+        "consultation_type": "Private Suite Consultation",
+        "preferred_date": "2026-10-25",
+        "preferred_time": "14:00"
+    }
+    book_res = client.post("/api/bookings", json=book_payload)
+    assert book_res.status_code == 201
+    assert "booking_number" in book_res.json()

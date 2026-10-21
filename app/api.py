@@ -1,3 +1,4 @@
+import json
 import random
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
@@ -6,7 +7,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import or_
 
 from app.database import get_db
-from app.models import Product, Category, RepairTicket, Reservation, RepairStatus, DeviceType
+from app.models import Product, Category, RepairTicket, Reservation, RepairStatus, DeviceType, Order, ConciergeBooking
 from app.config import get_settings
 
 settings = get_settings()
@@ -109,6 +110,51 @@ class ReservationResponse(BaseModel):
     created_at: str
 
     model_config = ConfigDict(from_attributes=True)
+
+class OrderItem(BaseModel):
+    id: Optional[str] = None
+    title: str
+    price: float
+    quantity: int = 1
+    finish: Optional[str] = None
+    storage: Optional[str] = None
+    image: Optional[str] = None
+
+class OrderCreate(BaseModel):
+    customer_name: str
+    customer_phone: str
+    customer_email: Optional[str] = None
+    shipping_address: str
+    city: Optional[str] = "Ahmedabad"
+    pincode: Optional[str] = "380015"
+    items: List[OrderItem]
+    subtotal: float
+    total_amount: float
+    payment_method: Optional[str] = "UPI Instant"
+    payment_status: Optional[str] = "paid"
+    source: Optional[str] = "website"
+
+class OrderUpdate(BaseModel):
+    order_status: Optional[str] = None
+    payment_status: Optional[str] = None
+    tracking_number: Optional[str] = None
+
+class BookingCreate(BaseModel):
+    customer_name: str
+    customer_phone: str
+    consultation_type: Optional[str] = "Private Suite Consultation"
+    preferred_date: Optional[str] = None
+    preferred_time: Optional[str] = None
+    notes: Optional[str] = None
+
+class ClientConfigUpdate(BaseModel):
+    store_name: Optional[str] = None
+    store_tagline: Optional[str] = None
+    store_phone: Optional[str] = None
+    store_address: Optional[str] = None
+    store_hours: Optional[str] = None
+    store_upi_id: Optional[str] = None
+    store_map_link: Optional[str] = None
 
 # -----------------------------------------------------------------------------
 # Helper
@@ -415,6 +461,190 @@ def list_reservations(limit: int = 50, db: Session = Depends(get_db)):
     return results
 
 # -----------------------------------------------------------------------------
+# Website Checkout Orders API
+# -----------------------------------------------------------------------------
+
+@router.post("/orders", status_code=status.HTTP_201_CREATED)
+def create_order(data: OrderCreate, db: Session = Depends(get_db)):
+    """Save an e-commerce order from the website checkout."""
+    order_num = f"RC-{random.randint(10000, 99999)}"
+    while db.query(Order).filter(Order.order_number == order_num).first():
+        order_num = f"RC-{random.randint(10000, 99999)}"
+
+    # Generate tracking code
+    tracking = f"WAYBILL-RC-{random.randint(100000, 999999)}"
+
+    items_dump = json.dumps([item.model_dump() for item in data.items])
+
+    new_order = Order(
+        order_number=order_num,
+        customer_name=data.customer_name,
+        customer_phone=data.customer_phone,
+        customer_email=data.customer_email,
+        shipping_address=data.shipping_address,
+        city=data.city or "Ahmedabad",
+        pincode=data.pincode or "380015",
+        items_json=items_dump,
+        subtotal=data.subtotal,
+        total_amount=data.total_amount,
+        payment_method=data.payment_method or "UPI Instant",
+        payment_status=data.payment_status or "paid",
+        order_status="confirmed",
+        tracking_number=tracking,
+        source=data.source or "website"
+    )
+    db.add(new_order)
+    db.commit()
+    db.refresh(new_order)
+
+    # Generate WhatsApp Click-to-Confirm Link
+    clean_phone = settings.STORE_PHONE.replace("+", "").replace(" ", "").replace("-", "")
+    items_summary = ", ".join([f"{i.title} (x{i.quantity})" for i in data.items])
+    msg = (
+        f"Hello {settings.STORE_NAME}! I just placed order #{new_order.order_number} on your website.\n"
+        f"• Customer: {new_order.customer_name}\n"
+        f"• Total: Rs.{int(new_order.total_amount):,}\n"
+        f"• Items: {items_summary}\n"
+        "Please confirm my order dispatch."
+    )
+    wa_link = f"https://wa.me/{clean_phone}?text={msg.replace(' ', '%20').replace('#', '%23')}"
+
+    return {
+        "status": "success",
+        "order_number": new_order.order_number,
+        "tracking_number": new_order.tracking_number,
+        "total_amount": new_order.total_amount,
+        "customer_name": new_order.customer_name,
+        "whatsapp_confirm_link": wa_link
+    }
+
+@router.get("/orders")
+def list_orders(limit: int = 50, offset: int = 0, status_filter: Optional[str] = None, db: Session = Depends(get_db)):
+    """List orders for the Unified Admin panel."""
+    query = db.query(Order)
+    if status_filter:
+        query = query.filter(Order.order_status == status_filter)
+    total = query.count()
+    orders = query.order_by(Order.id.desc()).offset(offset).limit(limit).all()
+
+    items_out = []
+    for o in orders:
+        try:
+            cart_items = json.loads(o.items_json)
+        except Exception:
+            cart_items = []
+        items_out.append({
+            "id": o.id,
+            "order_number": o.order_number,
+            "customer_name": o.customer_name,
+            "customer_phone": o.customer_phone,
+            "shipping_address": f"{o.shipping_address}, {o.city} - {o.pincode}",
+            "items": cart_items,
+            "total_amount": o.total_amount,
+            "payment_method": o.payment_method,
+            "payment_status": o.payment_status,
+            "order_status": o.order_status,
+            "tracking_number": o.tracking_number,
+            "source": o.source,
+            "created_at": o.created_at.strftime("%Y-%m-%d %H:%M")
+        })
+
+    return {"total": total, "items": items_out}
+
+@router.patch("/orders/{order_number}")
+def update_order_status(order_number: str, data: OrderUpdate, db: Session = Depends(get_db)):
+    """Update order status (Confirmed, Dispatched, Delivered, Cancelled) from Admin."""
+    order = db.query(Order).filter(Order.order_number == order_number).first()
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+
+    if data.order_status:
+        order.order_status = data.order_status
+    if data.payment_status:
+        order.payment_status = data.payment_status
+    if data.tracking_number:
+        order.tracking_number = data.tracking_number
+
+    db.commit()
+    db.refresh(order)
+    return {"status": "success", "order_number": order.order_number, "order_status": order.order_status}
+
+# -----------------------------------------------------------------------------
+# VIP Concierge Bookings API
+# -----------------------------------------------------------------------------
+
+@router.post("/bookings", status_code=status.HTTP_201_CREATED)
+def create_booking(data: BookingCreate, db: Session = Depends(get_db)):
+    """Save VIP consultation booking from index.html form."""
+    b_num = f"VIP-{random.randint(1000, 9999)}"
+    while db.query(ConciergeBooking).filter(ConciergeBooking.booking_number == b_num).first():
+        b_num = f"VIP-{random.randint(1000, 9999)}"
+
+    booking = ConciergeBooking(
+        booking_number=b_num,
+        customer_name=data.customer_name,
+        customer_phone=data.customer_phone,
+        consultation_type=data.consultation_type or "Private Suite Consultation",
+        preferred_date=data.preferred_date,
+        preferred_time=data.preferred_time,
+        notes=data.notes,
+        status="new"
+    )
+    db.add(booking)
+    db.commit()
+    db.refresh(booking)
+
+    # WhatsApp Link to notify store staff
+    clean_phone = settings.STORE_PHONE.replace("+", "").replace(" ", "").replace("-", "")
+    msg = f"VIP Appointment Request #{booking.booking_number} for {booking.customer_name} ({booking.customer_phone}) on {booking.preferred_date} at {booking.preferred_time}."
+    wa_link = f"https://wa.me/{clean_phone}?text={msg.replace(' ', '%20')}"
+
+    return {
+        "status": "success",
+        "booking_number": booking.booking_number,
+        "whatsapp_notify_link": wa_link
+    }
+
+@router.get("/bookings")
+def list_bookings(limit: int = 50, db: Session = Depends(get_db)):
+    """List VIP bookings for Unified Admin panel."""
+    bookings = db.query(ConciergeBooking).order_by(ConciergeBooking.id.desc()).limit(limit).all()
+    return [
+        {
+            "id": b.id,
+            "booking_number": b.booking_number,
+            "customer_name": b.customer_name,
+            "customer_phone": b.customer_phone,
+            "consultation_type": b.consultation_type,
+            "preferred_date": b.preferred_date,
+            "preferred_time": b.preferred_time,
+            "status": b.status,
+            "created_at": b.created_at.strftime("%Y-%m-%d %H:%M")
+        }
+        for b in bookings
+    ]
+
+# -----------------------------------------------------------------------------
+# Store & Client WhatsApp Configuration API
+# -----------------------------------------------------------------------------
+
+@router.get("/config/client")
+def get_client_config():
+    """Returns store contact details and WhatsApp connection info for the website."""
+    clean_phone = settings.STORE_PHONE.replace("+", "").replace(" ", "").replace("-", "")
+    return {
+        "store_name": settings.STORE_NAME,
+        "store_tagline": settings.STORE_TAGLINE,
+        "store_phone": settings.STORE_PHONE,
+        "clean_phone": clean_phone,
+        "whatsapp_link": f"https://wa.me/{clean_phone}?text=Hi%20{settings.STORE_NAME.replace(' ', '%20')},%20I%20need%20assistance",
+        "store_address": settings.STORE_ADDRESS,
+        "store_map_link": settings.STORE_MAP_LINK,
+        "store_hours": settings.STORE_HOURS,
+        "store_upi_id": settings.STORE_UPI_ID
+    }
+
+# -----------------------------------------------------------------------------
 # Store Overview & Stats API
 # -----------------------------------------------------------------------------
 
@@ -428,6 +658,9 @@ def get_store_stats(db: Session = Depends(get_db)):
     ).count()
     ready_repairs = db.query(RepairTicket).filter(RepairTicket.status == RepairStatus.READY_FOR_PICKUP).count()
     active_reservations = db.query(Reservation).filter(Reservation.status == "active").count()
+    total_orders = db.query(Order).count()
+    total_revenue = sum([o.total_amount for o in db.query(Order).all()]) if total_orders > 0 else 0
+    total_bookings = db.query(ConciergeBooking).count()
 
     brands = [r[0] for r in db.query(Product.brand).distinct().all()]
 
@@ -439,5 +672,8 @@ def get_store_stats(db: Session = Depends(get_db)):
         "brands": brands,
         "active_repairs": active_repairs,
         "ready_for_pickup_repairs": ready_repairs,
-        "active_reservations": active_reservations
+        "active_reservations": active_reservations,
+        "total_orders": total_orders,
+        "total_revenue": total_revenue,
+        "total_bookings": total_bookings
     }

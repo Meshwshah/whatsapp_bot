@@ -89,3 +89,38 @@ class CustomerSession(Base):
     current_state = Column(String(50), default="IDLE")  # IDLE, WAITING_REPAIR_TICKET, WAITING_SEARCH_QUERY, etc.
     context_data = Column(Text, nullable=True)          # JSON string if needed
     last_interaction = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+class Order(Base):
+    __tablename__ = "orders"
+
+    id = Column(Integer, primary_key=True, index=True)
+    order_number = Column(String(50), unique=True, index=True, nullable=False) # e.g. RC-8921
+    customer_name = Column(String(100), nullable=False)
+    customer_phone = Column(String(25), nullable=False, index=True)
+    customer_email = Column(String(100), nullable=True)
+    shipping_address = Column(Text, nullable=False)
+    city = Column(String(100), default="Ahmedabad")
+    pincode = Column(String(20), default="380015")
+    items_json = Column(Text, nullable=False)  # JSON encoded cart items
+    subtotal = Column(Float, nullable=False)
+    total_amount = Column(Float, nullable=False)
+    payment_method = Column(String(50), default="UPI Instant") # UPI Instant, Cards & EMI, Escrow on Handover
+    payment_status = Column(String(30), default="paid")        # paid, pending, cod
+    order_status = Column(String(30), default="confirmed")     # confirmed, processing, dispatched, delivered, cancelled
+    tracking_number = Column(String(100), nullable=True)
+    source = Column(String(30), default="website")            # website, whatsapp
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class ConciergeBooking(Base):
+    __tablename__ = "concierge_bookings"
+
+    id = Column(Integer, primary_key=True, index=True)
+    booking_number = Column(String(50), unique=True, index=True, nullable=False) # e.g. VIP-4012
+    customer_name = Column(String(100), nullable=False)
+    customer_phone = Column(String(25), nullable=False, index=True)
+    consultation_type = Column(String(100), default="Private Suite Consultation")
+    preferred_date = Column(String(50), nullable=True)
+    preferred_time = Column(String(50), nullable=True)
+    notes = Column(Text, nullable=True)
+    status = Column(String(30), default="new") # new, confirmed, completed, cancelled
+    created_at = Column(DateTime, default=datetime.utcnow)

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-primary": "#ffffff",
+          "error-container": "#fce4e0",
+          "on-secondary-fixed": "#2a2420",
+          "on-primary-fixed-variant": "#8a4518",
+          "tertiary-fixed-dim": "#e8a0a0",
+          "surface-container-high": "#ece6dc",
+          "secondary-fixed-dim": "#cec6be",
+          "on-tertiary-fixed": "#2e1515",
+          "background": "#faf5ee",
+          "inverse-on-surface": "#faf5ee",
+          "on-tertiary": "#ffffff",
+          "inverse-surface": "#3a302a",
+          "inverse-primary": "#f0a878",
+          "on-error-container": "#7a1a10",
+          "surface-container-low": "#f6f0e8",
+          "error": "#c0392b",
+          "primary-fixed": "#fbe8d8",
+          "surface-tint": "#c2652a",
+          "on-secondary-container": "#605850",
+          "surface-bright": "#faf5ee",
+          "outline-variant": "#d8d0c8",
+          "primary-container": "#e08850",
+          "tertiary-fixed": "#fce0e0",
+          "surface-dim": "#dcd6cc",
+          "surface-variant": "#ece6dc",
+          "on-secondary": "#ffffff",
+          "tertiary": "#8c3c3c",
+          "surface-container-lowest": "#ffffff",
+          "surface-container": "#f2ece4",
+          "primary-fixed-dim": "#f0a878",
+          "on-tertiary-fixed-variant": "#6e3030",
+          "on-error": "#ffffff",
+          "on-secondary-fixed-variant": "#504840",
+          "primary": "#c2652a",
+          "on-tertiary-container": "#3a2020",
+          "on-surface-variant": "#605850",
+          "outline": "#9a9088",
+          "on-background": "#3a302a",
+          "surface": "#faf5ee",
+          "secondary-container": "#eae2da",
+          "secondary-fixed": "#eae2da",
+          "secondary": "#78706a",
+          "on-surface": "#3a302a",
+          "on-primary-fixed": "#401a08",
+          "tertiary-container": "#d47070",
+          "on-primary-container": "#fbe8d8",
+          "surface-container-highest": "#e6e0d6"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {},
+        "fontFamily": {
+          "headline": [
+            "EB Garamond"
+          ],
+          "display": [
+            "EB Garamond"
+          ],
+          "body": [
+            "Manrope"
+          ],
+          "label": [
+            "Manrope"
+          ]
+        },
+        "fontSize": {}
+      },
+    },
+  }</script></head><body class="bg-background font-body text-on-surface antialiased min-h-screen flex flex-col"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/85 backdrop-blur-xl shadow-[0_2px_16px_rgba(58,48,42,0.04)]"><div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-8"><div class="flex items-center gap-12"><a class="flex flex-col group" data-path="flagship-devices" href="#"><span class="font-headline text-2xl lg:text-3xl font-semibold tracking-tight text-on-surface">Rishabh</span><span class="text-[10px] uppercase font-label tracking-[0.28em] text-secondary -mt-1">Communication • Flagship</span></a><nav class="hidden xl:flex items-center gap-7" data-active-classes="text-primary font-semibold"><a aria-current="page" class="transition-colors text-primary font-semibold" data-path="flagship-devices" href="#">Flagship Devices</a><a class="text-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="audio-and-wearables" href="#">Audio &amp; Wearables</a><a class="text-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="creator-gear" href="#">Creator Gear</a><a class="text-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="concierge-and-warranty" href="#">Concierge &amp; Warranty</a><a class="text-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="trust-and-support" href="#">Trust &amp; Support</a></nav></div><div class="flex items-center gap-4 lg:gap-6"><div class="hidden md:flex items-center bg-surface-container-low rounded-lg px-3.5 py-1.5 w-60 lg:w-72"><span class="material-symbols-outlined text-secondary text-[20px] mr-2.5">search</span><input class="bg-transparent w-full text-sm text-on-surface placeholder:text-secondary focus:outline-none font-body" placeholder="Search authorized devices..." type="text"/></div><div class="flex items-center gap-2"><button aria-label="Wishlist" class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">favorite</span></button><button aria-label="Shopping Bag" class="relative w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">shopping_bag</span><span class="absolute top-1.5 right-1.5 bg-primary text-on-primary text-[10px] font-semibold w-4 h-4 rounded-full flex items-center justify-center">2</span></button><div class="pl-2"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></div></header><main class="w-full pt-20 bg-background flex-1"><div class="flex flex-col w-full font-body text-on-surface">
+<!-- HERO SECTION: PRECISION TECHNOLOGY & SHOWCASE -->
+<section class="relative w-full overflow-hidden px-6 lg:px-12 py-12 lg:py-20">
+<!-- Atmospheric Warm Radial Light -->
+<div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[720px] h-[480px] bg-primary/10 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+<div class="absolute bottom-0 right-10 w-[360px] h-[360px] bg-primary-container/10 rounded-full blur-[110px] pointer-events-none -z-10"></div>
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+<!-- Narrative Column -->
+<div class="lg:col-span-6 flex flex-col items-start pr-0 lg:pr-8">
+<div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-surface-container-high/70 backdrop-blur-md shadow-sm mb-6">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[11px] font-label font-medium tracking-[0.22em] uppercase text-primary">Authorized Flagship Partner</span>
+<span class="text-secondary/40 text-xs">/</span>
+<span class="text-[11px] font-label font-medium text-secondary">Serial Reg. 2024</span>
+</div>
+<h1 class="font-headline text-4xl sm:text-5xl lg:text-6xl text-on-surface font-normal tracking-tight leading-[1.08] mb-6">
+          Precision Technology. <br/>
+<span class="italic font-light text-primary">Uncompromising Service.</span>
+</h1>
+<p class="text-base lg:text-lg text-on-surface-variant font-light leading-relaxed max-w-xl mb-10">
+          Rishabh Communication curates tier-one mobile architecture, studio acoustics, and precision wearables. Sourced directly from global OEM manufacturers with verified tamper-proof provenance.
+        </p>
+<!-- Call to Actions -->
+<div class="flex flex-wrap items-center gap-4 w-full sm:w-auto">
+<a class="inline-flex items-center justify-center px-8 py-3.5 rounded-lg bg-primary text-on-primary font-label text-sm font-semibold tracking-wide shadow-md hover:bg-primary/95 transition-all duration-200" href="#curated-editions">
+            Explore Flagship Fleet
+            <span class="material-symbols-outlined text-[18px] ml-2">north_east</span>
+</a>
+<a class="inline-flex items-center justify-center px-7 py-3.5 rounded-lg bg-surface-container-high text-on-surface font-label text-sm font-medium hover:bg-surface-container-highest transition-colors" href="#specialist-concierge">
+            Book VIP Concierge
+          </a>
+</div>
+<!-- Metric Ticker Minimal -->
+<div class="grid grid-cols-3 gap-6 pt-12 mt-12 w-full">
+<div>
+<div class="font-headline text-2xl lg:text-3xl text-on-surface font-normal">100%</div>
+<div class="text-[11px] font-label text-secondary uppercase tracking-[0.14em] mt-1">OEM Direct Stock</div>
+</div>
+<div>
+<div class="font-headline text-2xl lg:text-3xl text-on-surface font-normal">4-Hour</div>
+<div class="text-[11px] font-label text-secondary uppercase tracking-[0.14em] mt-1">Metro Dispatch</div>
+</div>
+<div>
+<div class="font-headline text-2xl lg:text-3xl text-on-surface font-normal">VIP Desk</div>
+<div class="text-[11px] font-label text-secondary uppercase tracking-[0.14em] mt-1">Doorstep Setup</div>
+</div>
+</div>
+</div>
+<!-- Hero Product Frosted Showcase Card -->
+<div class="lg:col-span-6 relative">
+<div class="relative bg-surface-container-lowest/80 backdrop-blur-xl rounded-2xl p-6 sm:p-8 lg:p-10 shadow-xl overflow-hidden">
+<!-- Top Credential Ribbon -->
+<div class="flex items-center justify-between pb-6 mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label text-xs uppercase tracking-widest font-semibold text-on-surface">Certified OEM Stock</span>
+</div>
+<span class="inline-flex items-center px-2.5 py-1 rounded bg-surface-container text-secondary text-[11px] font-label font-medium tracking-wider">
+              OFFICIAL 1-YEAR BRAND WARRANTY
+            </span>
+</div>
+<!-- Dual Device Visual Integration -->
+<div class="relative h-[380px] sm:h-[440px] flex items-center justify-center">
+<!-- Background Glow behind devices -->
+<div class="absolute w-64 h-64 bg-primary/10 rounded-full blur-2xl"></div>
+<!-- Flagship Smartphone: Layered Left -->
+<div class="absolute left-4 sm:left-10 bottom-4 w-44 sm:w-56 h-[340px] sm:h-[400px] flex items-center justify-center transition-transform hover:scale-[1.02] duration-300">
+<img alt="iPhone Titanium Flagship Device" class="max-h-full max-w-full object-contain drop-shadow-[0_20px_35px_rgba(58,48,42,0.18)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB8FsTo3vBTsAH4j5k2Q3OvFlX3JmIvVBQSUQhwQUF1f-fPkO7ADoPHHlYww2vIU1VZ-sUUpX9xWCDu8MYL50UbycsfjMBdBvx_GP5Gcma1-_5JUZ1m7bWnAFvxZj0oNPcmhifvlsK1CGL3IALYUF-uKHZ6X28iSynGo6PhPhue88o4ctEZpPma5KuJR9OkcZtgAHP7jurslnlneIcxIULv8NrW9LRi5CD1kqXTiEjfUC5yKwSy8Fmd1bt8Nab4a9U2Fg"/>
+</div>
+<!-- Apple Watch Ultra: Layered Right & In Foreground -->
+<div class="absolute right-2 sm:right-8 -bottom-2 w-44 sm:w-56 h-44 sm:h-56 flex items-center justify-center transition-transform hover:scale-[1.04] duration-300">
+<img alt="Precision Apple Watch Ultra" class="max-h-full max-w-full object-contain drop-shadow-[0_24px_40px_rgba(58,48,42,0.22)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr5ESgfnjjx8i0moQWipWNM2L7cU4OxZbZmmOrn3k5cZlsmQ3iTEGLpb8Z-2Iw81WfbtZV3VKwdTffq_fxeLX6wWStmQOYPzCdBVkDlYutF8NCtYPOpPbziai-HoTXvvym9t5lOPNMEbdntpuoxZPvjNfGcDaBTIT3xdX_PIog5lDZrgQMjqDDOtV0AWvlwI_FiP6cMxubYUCEOjcQXt5f-7yX-C6deyiox9dD_FvENo8TqZehAwikQlwxUohVDbx7YpU"/>
+</div>
+<!-- Interactive Serialized Floating Tag -->
+<div class="absolute top-4 right-2 bg-surface-container-high/90 backdrop-blur-md px-3.5 py-2 rounded-lg shadow-sm">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-[11px] font-mono tracking-wider text-on-surface font-medium">IMEI SECURE VERIFIED</span>
+</div>
+</div>
+</div>
+<!-- Card Base Metadata -->
+<div class="pt-6 mt-4 flex items-center justify-between bg-surface-container-low/70 rounded-xl px-5 py-3.5">
+<div class="flex flex-col">
+<span class="font-headline text-lg text-on-surface font-medium leading-none">Titanium Pro Series &amp; Ultra</span>
+<span class="text-xs text-secondary font-light mt-1">Direct Brand Allocation • Factory Sealed</span>
+</div>
+<a class="inline-flex items-center gap-1 text-primary text-xs font-label font-semibold tracking-wider hover:opacity-80 transition-opacity" href="#curated-editions">
+              INSPECT <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SERVICE & TRUST TRIAD -->
+<section class="w-full px-6 lg:px-12 py-12">
+<div class="max-w-7xl mx-auto">
+<div class="bg-surface-container-low/60 backdrop-blur-md rounded-2xl p-8 lg:p-12 shadow-sm">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+<!-- Pillar 1 -->
+<div class="flex flex-col space-y-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary mb-1 shadow-sm">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<h3 class="font-headline text-xl text-on-surface font-medium">100% Verified OEM Direct</h3>
+<p class="text-sm text-on-surface-variant font-light leading-relaxed">
+              Every unit arrives factory-sealed with uncompromised serial and IMEI identifiers registered on official brand databases for instant zero-friction claims.
+            </p>
+<div class="pt-2 flex items-center text-xs font-label font-semibold tracking-wider text-primary">
+              SERIAL AUDITED ARCHIVE
+            </div>
+</div>
+<!-- Pillar 2 -->
+<div class="flex flex-col space-y-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary mb-1 shadow-sm">
+<span class="material-symbols-outlined text-2xl">shield_with_heart</span>
+</div>
+<h3 class="font-headline text-xl text-on-surface font-medium">White-Glove VIP Concierge</h3>
+<p class="text-sm text-on-surface-variant font-light leading-relaxed">
+              Doorstep data migration, hardware health diagnostics, precision glass calibration, and priority access to reserve loaner devices during repairs.
+            </p>
+<div class="pt-2 flex items-center text-xs font-label font-semibold tracking-wider text-primary">
+              CERTIFIED TECH SPECIALISTS
+            </div>
+</div>
+<!-- Pillar 3 -->
+<div class="flex flex-col space-y-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary mb-1 shadow-sm">
+<span class="material-symbols-outlined text-2xl">local_shipping</span>
+</div>
+<h3 class="font-headline text-xl text-on-surface font-medium">Insured Express Dispatch</h3>
+<p class="text-sm text-on-surface-variant font-light leading-relaxed">
+              Tamper-evident armored couriers, real-time GPS tracking, and complete transit liability coverage from our vaults directly to your premises.
+            </p>
+<div class="pt-2 flex items-center text-xs font-label font-semibold tracking-wider text-primary">
+              FULLY TRANSIT INSURED
+            </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CURATED CATEGORIES -->
+<section class="w-full px-6 lg:px-12 py-16">
+<div class="max-w-7xl mx-auto">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+<div>
+<span class="text-xs font-label uppercase tracking-[0.25em] text-primary font-semibold block mb-2">Architectural Curation</span>
+<h2 class="font-headline text-3xl sm:text-4xl text-on-surface font-normal">Four Portfolios of Excellence</h2>
+</div>
+<p class="text-sm text-secondary font-light max-w-sm mt-3 md:mt-0">
+          Disciplined hardware selections aligned with authorized enterprise supply channels.
+        </p>
+</div>
+<!-- Categories Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Category 1 -->
+<div class="group relative bg-surface-container-lowest/80 backdrop-blur-md rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300">
+<div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">smartphone</span>
+</div>
+<h3 class="font-headline text-xl text-on-surface font-medium mb-2">Flagships &amp; Smartphones</h3>
+<p class="text-xs text-on-surface-variant font-light leading-relaxed">Direct OEM allocations, unlocked enterprise editions, and complimentary data migration.</p>
+</div>
+<div class="pt-8 flex items-center justify-between text-xs font-label">
+<span class="text-secondary font-medium">84 Devices</span>
+<span class="material-symbols-outlined text-primary text-[18px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Category 2 -->
+<div class="group relative bg-surface-container-lowest/80 backdrop-blur-md rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300">
+<div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">headphones</span>
+</div>
+<h3 class="font-headline text-xl text-on-surface font-medium mb-2">Acoustic &amp; Studio Audio</h3>
+<p class="text-xs text-on-surface-variant font-light leading-relaxed">Uncompressed audiophile monitoring, verified direct imports, and high-res DAC modules.</p>
+</div>
+<div class="pt-8 flex items-center justify-between text-xs font-label">
+<span class="text-secondary font-medium">32 Systems</span>
+<span class="material-symbols-outlined text-primary text-[18px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Category 3 -->
+<div class="group relative bg-surface-container-lowest/80 backdrop-blur-md rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300">
+<div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">watch</span>
+</div>
+<h3 class="font-headline text-xl text-on-surface font-medium mb-2">Precision Wearables</h3>
+<p class="text-xs text-on-surface-variant font-light leading-relaxed">Official cellular eSIM configuration, telemetry sensor calibration, and luxury link armatures.</p>
+</div>
+<div class="pt-8 flex items-center justify-between text-xs font-label">
+<span class="text-secondary font-medium">26 Editions</span>
+<span class="material-symbols-outlined text-primary text-[18px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Category 4 -->
+<div class="group relative bg-surface-container-lowest/80 backdrop-blur-md rounded-2xl p-7 flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300">
+<div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">videocam</span>
+</div>
+<h3 class="font-headline text-xl text-on-surface font-medium mb-2">Creator Optics &amp; Gimbals</h3>
+<p class="text-xs text-on-surface-variant font-light leading-relaxed">Certified studio rigging, stabilization systems, anamorphic lenses, and professional transmitters.</p>
+</div>
+<div class="pt-8 flex items-center justify-between text-xs font-label">
+<span class="text-secondary font-medium">19 Tools</span>
+<span class="material-symbols-outlined text-primary text-[18px] transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CURATED EDITIONS / FEATURED COLLECTION -->
+<section class="w-full px-6 lg:px-12 py-16 bg-surface-container-low/40" id="curated-editions">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
+<div>
+<span class="text-xs font-label uppercase tracking-[0.25em] text-primary font-semibold block mb-2">Vault Selections</span>
+<h2 class="font-headline text-3xl sm:text-4xl text-on-surface font-normal">Featured Authorized Editions</h2>
+</div>
+<div class="flex items-center gap-3 mt-4 sm:mt-0">
+<span class="text-xs font-label text-secondary tracking-widest uppercase">Verified Serialized Stock</span>
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+</div>
+</div>
+<!-- 3 Minimalist Luxury Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Product 1: iPhone Pro Titanium -->
+<div class="group bg-surface-container-lowest rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-xl transition-all duration-300">
+<div>
+<!-- Top Badges -->
+<div class="flex items-center justify-between mb-4">
+<span class="text-[11px] font-label uppercase tracking-widest font-semibold text-primary bg-primary/10 px-2.5 py-1 rounded">
+                Authorized Tier
+              </span>
+<span class="text-xs text-secondary font-mono">STOCK: ACTIVE</span>
+</div>
+<!-- Image Stage -->
+<div class="w-full h-64 sm:h-72 flex items-center justify-center my-4 overflow-hidden rounded-xl bg-surface-container-low/30">
+<img alt="iPhone Pro Titanium" class="max-h-56 sm:max-h-64 object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBny3qM8INfos2ORLL28WHD1HmxWd34JTgzJ7CwL1XAa7kehiwR0prw62_aqdI1NJAodIAyA4r2LGL_etp4XY0twRJgOmQKVpdnlQi97sw8KjhtBWXEBVIcYPlDKkzSBlGneYf7IWSAixscMV3VuNw-xb9XC-NQ-j19nfkMrvTahd0TCq7N87oyCKGno9vkSfiZgPws1-zwlkRTvxL9Ie56-7nUXbpRTbHsNEoqd2L7iK8HJlOzwxeV2iX3H-HpHzCE_Pg"/>
+</div>
+<!-- Product Specs -->
+<div class="space-y-1 mb-4">
+<span class="text-[11px] font-label text-secondary tracking-wider uppercase">Flagship Cellular</span>
+<h3 class="font-headline text-2xl text-on-surface font-medium leading-snug">iPhone Pro Titanium</h3>
+<p class="text-xs text-on-surface-variant font-light">Grade 5 Titanium architecture with unthrottled A-Series performance.</p>
+</div>
+<div class="flex items-center gap-2 text-xs text-primary mb-6">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label font-medium">Official Brand Warranty Included</span>
+</div>
+</div>
+<!-- Price & Actions -->
+<div class="pt-4 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-label text-secondary tracking-wider">Direct MRP</span>
+<span class="font-headline text-2xl font-semibold text-on-surface">₹1,29,900</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2.5 rounded-lg bg-surface-container text-on-surface font-label text-xs font-semibold hover:bg-surface-container-high transition-colors">
+                View Details
+              </button>
+<button aria-label="Add iPhone Pro Titanium to bag" class="w-10 h-10 rounded-lg bg-primary text-on-primary flex items-center justify-center hover:bg-primary/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product 2: UNISKS Studio Headphone -->
+<div class="group bg-surface-container-lowest rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-xl transition-all duration-300">
+<div>
+<!-- Top Badges -->
+<div class="flex items-center justify-between mb-4">
+<span class="text-[11px] font-label uppercase tracking-widest font-semibold text-primary bg-primary/10 px-2.5 py-1 rounded">
+                Acoustic Verified
+              </span>
+<span class="text-xs text-secondary font-mono">STOCK: ACTIVE</span>
+</div>
+<!-- Image Stage -->
+<div class="w-full h-64 sm:h-72 flex items-center justify-center my-4 overflow-hidden rounded-xl bg-surface-container-low/30">
+<img alt="UNISKS Studio Headphone" class="max-h-56 sm:max-h-64 object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_EJhC1F-Nzw_93s_KK-gZlrAKkObaX5I4ayAJ80y0_d5ZPd7CTJGhjUFU44vdXSwX-xUiEYPM8jF1g8UvHOHRF23Jmsth-OzUm4HbnAT4xrNzyF2URUfKLKGIyYUr8Fi9qWN64Lx_bA78NlFfYioKCO-sVqEcSgyPRNIj9Ix9xVfjkMLWkJcLMhdPzRgFkeG6o8l2ao_CXvV7BUODuIzHx5-HegDlOiWiZAJfWu-CiU3cbeLUQj_JqK26ubjrWHoTSUk"/>
+</div>
+<!-- Product Specs -->
+<div class="space-y-1 mb-4">
+<span class="text-[11px] font-label text-secondary tracking-wider uppercase">High-Res Reference</span>
+<h3 class="font-headline text-2xl text-on-surface font-medium leading-snug">UNISKS Studio Monitoring</h3>
+<p class="text-xs text-on-surface-variant font-light">Bespoke planar drivers engineered for pure acoustic linear response.</p>
+</div>
+<div class="flex items-center gap-2 text-xs text-primary mb-6">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label font-medium">OEM Seal Intact • Zero Distortion</span>
+</div>
+</div>
+<!-- Price & Actions -->
+<div class="pt-4 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-label text-secondary tracking-wider">Direct MRP</span>
+<span class="font-headline text-2xl font-semibold text-on-surface">₹14,999</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2.5 rounded-lg bg-surface-container text-on-surface font-label text-xs font-semibold hover:bg-surface-container-high transition-colors">
+                View Details
+              </button>
+<button aria-label="Add UNISKS Studio Headphone to bag" class="w-10 h-10 rounded-lg bg-primary text-on-primary flex items-center justify-center hover:bg-primary/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product 3: Apple Watch Ultra -->
+<div class="group bg-surface-container-lowest rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:shadow-xl transition-all duration-300">
+<div>
+<!-- Top Badges -->
+<div class="flex items-center justify-between mb-4">
+<span class="text-[11px] font-label uppercase tracking-widest font-semibold text-primary bg-primary/10 px-2.5 py-1 rounded">
+                Certified Enterprise
+              </span>
+<span class="text-xs text-secondary font-mono">STOCK: ACTIVE</span>
+</div>
+<!-- Image Stage -->
+<div class="w-full h-64 sm:h-72 flex items-center justify-center my-4 overflow-hidden rounded-xl bg-surface-container-low/30">
+<img alt="Apple Watch Ultra" class="max-h-56 sm:max-h-64 object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQRF7JrlRSgpLFutdeLbMQA2asDHt4AASeVJHuVKOemlsopjSBOs9tvfPCasWTqWot4CCJQhPy2XbnkaJQOGzntim3KwwsikxrQspcHMIEpaVV4cN69TV4EtNwikb_S6D084kamytA0jnJvj-pMvTp3WAn9lQv14oUzU8sjMwCxbWnIFrYjw2OjgmyOY1HCGBnA1gZmwV5riXylWZS1vgq8lxzSR56bXNLqp79mOChrXy_4x_0cTFEXjvWtv9OZ-y4eok"/>
+</div>
+<!-- Product Specs -->
+<div class="space-y-1 mb-4">
+<span class="text-[11px] font-label text-secondary tracking-wider uppercase">Endurance Telemetry</span>
+<h3 class="font-headline text-2xl text-on-surface font-medium leading-snug">Apple Watch Ultra</h3>
+<p class="text-xs text-on-surface-variant font-light">Aerospace titanium enclosure with dual-frequency high-precision GPS.</p>
+</div>
+<div class="flex items-center gap-2 text-xs text-primary mb-6">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label font-medium">Direct Brand Protection Active</span>
+</div>
+</div>
+<!-- Price & Actions -->
+<div class="pt-4 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-label text-secondary tracking-wider">Direct MRP</span>
+<span class="font-headline text-2xl font-semibold text-on-surface">₹89,900</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2.5 rounded-lg bg-surface-container text-on-surface font-label text-xs font-semibold hover:bg-surface-container-high transition-colors">
+                View Details
+              </button>
+<button aria-label="Add Apple Watch Ultra to bag" class="w-10 h-10 rounded-lg bg-primary text-on-primary flex items-center justify-center hover:bg-primary/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- AUTHENTICITY PLEDGE & DATA ACCORDION / SERIAL VERIFICATION SECTION -->
+<section class="w-full px-6 lg:px-12 py-16">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center bg-surface-container-lowest rounded-3xl p-8 sm:p-12 shadow-sm">
+<div class="lg:col-span-5 space-y-6">
+<div class="inline-flex items-center gap-2 text-primary font-label text-xs tracking-widest uppercase font-semibold">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>Security Architecture</span>
+</div>
+<h2 class="font-headline text-3xl sm:text-4xl text-on-surface font-normal leading-tight">
+            Tamper-Proof Serial Verification Portal
+          </h2>
+<p class="text-sm text-on-surface-variant font-light leading-relaxed">
+            Every transaction at Rishabh Communication is registered into manufacturer warranty logs before handover. Verify your device provenance instantly using your unique serialized invoice number.
+          </p>
+<!-- Interactive Serial Input Simulation -->
+<div class="pt-2">
+<div class="flex items-center gap-2 bg-surface-container-low rounded-xl p-2">
+<span class="material-symbols-outlined text-secondary ml-2">qr_code_scanner</span>
+<input class="bg-transparent w-full text-xs font-mono text-on-surface placeholder:text-secondary focus:outline-none" id="imei-input" placeholder="Enter 15-digit IMEI or Serial..." type="text"/>
+<button class="px-4 py-2 bg-primary text-on-primary text-xs font-label font-semibold rounded-lg hover:bg-primary/90 transition-colors shrink-0" onclick="verifySerial()">
+                Authenticate
+              </button>
+</div>
+<p class="text-[11px] font-mono text-secondary mt-2 pl-2" id="verification-status">
+              Status: Ready for query. Standard protocol AES-256.
+            </p>
+</div>
+</div>
+<div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
+<div class="bg-surface-container-low/70 rounded-xl p-5 space-y-2">
+<span class="material-symbols-outlined text-primary text-xl">gavel</span>
+<h4 class="font-headline text-lg text-on-surface font-medium">OEM Chain of Custody</h4>
+<p class="text-xs text-on-surface-variant font-light leading-relaxed">Zero middleman brokers. Every box transitions directly from authorized OEM depot to our sterile fulfillment vault.</p>
+</div>
+<div class="bg-surface-container-low/70 rounded-xl p-5 space-y-2">
+<span class="material-symbols-outlined text-primary text-xl">phonelink_setup</span>
+<h4 class="font-headline text-lg text-on-surface font-medium">Bespoke Initialization</h4>
+<p class="text-xs text-on-surface-variant font-light leading-relaxed">Zero-bloatware OS provision, authorized Apple Care/Samsung Care+ linkage, and pristine tempered protection application.</p>
+</div>
+<div class="bg-surface-container-low/70 rounded-xl p-5 space-y-2">
+<span class="material-symbols-outlined text-primary text-xl">published_with_changes</span>
+<h4 class="font-headline text-lg text-on-surface font-medium">Guaranteed Buyback Shield</h4>
+<p class="text-xs text-on-surface-variant font-light leading-relaxed">Guaranteed minimum residual valuation lock for up to 18 months, facilitating effortless upgrades to successive flagships.</p>
+</div>
+<div class="bg-surface-container-low/70 rounded-xl p-5 space-y-2">
+<span class="material-symbols-outlined text-primary text-xl">speed</span>
+<h4 class="font-headline text-lg text-on-surface font-medium">Priority Replacement SLA</h4>
+<p class="text-xs text-on-surface-variant font-light leading-relaxed">In the rare event of factory DOA within 14 days, receive immediate sealed device exchange with zero administrative wait.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- TECHNOLOGY ADVISORY & APPOINTMENT INVITATION -->
+<section class="w-full px-6 lg:px-12 py-16 mb-8" id="specialist-concierge">
+<div class="max-w-7xl mx-auto">
+<div class="relative overflow-hidden bg-surface-container-lowest/80 backdrop-blur-xl rounded-3xl p-8 sm:p-14 shadow-lg">
+<!-- Subtle Background Glow Accent -->
+<div class="absolute -right-20 -bottom-20 w-80 h-80 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+<div class="lg:col-span-7 space-y-5">
+<span class="text-xs font-label uppercase tracking-[0.25em] text-primary font-semibold block">VIP Consultation</span>
+<h2 class="font-headline text-3xl sm:text-5xl text-on-surface font-normal tracking-tight">
+              Speak with a Senior Tech Specialist
+            </h2>
+<p class="text-sm lg:text-base text-on-surface-variant font-light leading-relaxed max-w-xl">
+              Whether curating enterprise deployments for your executive team or seeking tactile comparison between flagships, our private technology salon offers tailored guidance with complete confidentiality.
+            </p>
+<div class="flex flex-wrap items-center gap-6 pt-2">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[20px]">schedule</span>
+<span class="text-xs font-label font-medium text-on-surface">30-Min In-Store or Doorstep Sessions</span>
+</div>
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[20px]">corporate_fare</span>
+<span class="text-xs font-label font-medium text-on-surface">Corporate GST Invoicing Available</span>
+</div>
+</div>
+</div>
+<!-- Form / Booking Action Card -->
+<div class="lg:col-span-5 bg-surface-container-low/80 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-sm">
+<h3 class="font-headline text-xl text-on-surface font-medium mb-1">Schedule Store Concierge</h3>
+<p class="text-xs text-secondary mb-6">Select your preferred consultation modality:</p>
+<form class="space-y-4" onsubmit="handleBooking(event)">
+<div>
+<label class="block text-[11px] font-label font-medium uppercase tracking-wider text-secondary mb-1.5">Full Name</label>
+<input class="w-full bg-surface-container-lowest rounded-lg px-3.5 py-2.5 text-xs text-on-surface placeholder:text-secondary/60 focus:outline-none focus:ring-1 focus:ring-primary font-body" placeholder="e.g. Vikramaditya Singhania" required="" type="text"/>
+</div>
+<div>
+<label class="block text-[11px] font-label font-medium uppercase tracking-wider text-secondary mb-1.5">Direct Phone / WhatsApp</label>
+<input class="w-full bg-surface-container-lowest rounded-lg px-3.5 py-2.5 text-xs text-on-surface placeholder:text-secondary/60 focus:outline-none focus:ring-1 focus:ring-primary font-body" placeholder="+91 98000 00000" required="" type="tel"/>
+</div>
+<div>
+<label class="block text-[11px] font-label font-medium uppercase tracking-wider text-secondary mb-1.5">Focus Interest</label>
+<select class="w-full bg-surface-container-lowest rounded-lg px-3.5 py-2.5 text-xs text-on-surface focus:outline-none focus:ring-1 focus:ring-primary font-body">
+<option>Flagship Fleet (iPhone Titanium / Pro Fold)</option>
+<option>Acoustic Studio Monitoring Systems</option>
+<option>Precision Telemetry Wearables</option>
+<option>Corporate Fleet Procurement</option>
+</select>
+</div>
+<button class="w-full py-3 rounded-lg bg-primary text-on-primary font-label text-xs font-semibold uppercase tracking-wider hover:bg-primary/95 transition-colors shadow-md mt-2" type="submit">
+                Confirm Private Appointment
+              </button>
+<p class="text-[11px] text-center text-primary font-medium hidden" id="booking-msg">
+                Concierge dispatch confirmed. Our lead specialist will contact you within 15 minutes.
+              </p>
+</form>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SCRIPT FOR SIMPLE CLIENT-SIDE MICRO-INTERACTIONS -->
+<script>
+    function verifySerial() {
+      const input = document.getElementById('imei-input');
+      const status = document.getElementById('verification-status');
+      if (!input.value.trim()) {
+        status.innerHTML = '<span class="text-error">Please provide a 15-digit IMEI or serialized invoice token.</span>';
+        return;
+      }
+      status.innerHTML = '<span class="text-primary font-medium">Validating checksum against authorized OEM registry...</span>';
+      setTimeout(() => {
+        status.innerHTML = '<span class="text-primary font-medium flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span> Authentic OEM Registered Unit &bull; Brand Warranty Valid &bull; Zero Claims History</span>';
+      }, 700);
+    }
+
+    function handleBooking(e) {
+      e.preventDefault();
+      const msg = document.getElementById('booking-msg');
+      msg.classList.remove('hidden');
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-low mt-auto"><div class="max-w-7xl mx-auto px-6 lg:px-12 py-16"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-14"><div class="space-y-4"><div class="flex items-center gap-3 text-primary"><span class="material-symbols-outlined text-2xl">verified_user</span><h4 class="font-headline text-lg font-semibold text-on-surface tracking-tight">Authorized Dealer</h4></div><p class="text-sm text-on-surface-variant font-light leading-relaxed">Every smartphone, tablet, and accessory is guaranteed 100% authentic, directly sourced from global manufacturers with serialized registration.</p></div><div class="space-y-4"><div class="flex items-center gap-3 text-primary"><span class="material-symbols-outlined text-2xl">workspace_premium</span><h4 class="font-headline text-lg font-semibold text-on-surface tracking-tight">Official OEM Warranty</h4></div><p class="text-sm text-on-surface-variant font-light leading-relaxed">Complimentary direct service booking, zero-hassle brand warranty validation, and authorized genuine replacement parts guarantee.</p></div><div class="space-y-4"><div class="flex items-center gap-3 text-primary"><span class="material-symbols-outlined text-2xl">support_agent</span><h4 class="font-headline text-lg font-semibold text-on-surface tracking-tight">Direct Helpline</h4></div><p class="text-sm text-on-surface-variant font-light leading-relaxed">Dedicated client concierge available daily 09:00 - 21:00 IST for priority technical support, pre-order reservations, and doorstep setup.</p></div><div class="space-y-4"><div class="flex items-center gap-3 text-primary"><span class="material-symbols-outlined text-2xl">store</span><h4 class="font-headline text-lg font-semibold text-on-surface tracking-tight">Boutique Salons</h4></div><p class="text-sm text-on-surface-variant font-light leading-relaxed">Visit our experiential lounges for tactile hardware demonstrations, device diagnostics, and tailor-made bespoke consultations.</p></div></div><div class="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-on-surface-variant font-light"><p>© 2024 Rishabh Communication. Licensed Flagship Tech Boutique. All rights reserved.</p><div class="flex items-center gap-8"><a class="hover:text-on-surface transition-colors" href="#">Authenticity Pledge</a><a class="hover:text-on-surface transition-colors" href="#">Warranty Terms</a><a class="hover:text-on-surface transition-colors" href="#">Privacy Policy</a><a class="hover:text-on-surface transition-colors" href="#">Boutique Concierge</a></div></div></div></footer></body></html>

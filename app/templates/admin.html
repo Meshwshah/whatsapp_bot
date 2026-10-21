@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ElectroMobile Store - Unified Dashboard</title>
+  <title>Rishabh Communication — Unified Admin Engine</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -17,23 +17,26 @@
   <header class="bg-slate-900/80 backdrop-blur border-b border-slate-800 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
-          <i class="fa-solid fa-bolt text-lg"></i>
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center text-white shadow-lg shadow-amber-500/20">
+          <i class="fa-solid fa-crown text-base"></i>
         </div>
         <div>
           <h1 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-            ElectroMobile <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Bot & Web Engine</span>
+            Rishabh Communication <span class="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">Unified Admin (Web & Bot)</span>
           </h1>
-          <p class="text-xs text-slate-400">Inventory, Repair Jobs & WhatsApp Integration</p>
+          <p class="text-xs text-slate-400">One Control Center for Website, Store Catalog & WhatsApp Bot</p>
         </div>
       </div>
 
       <div class="flex items-center gap-3">
+        <a href="http://localhost:3000" target="_blank" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Website (Port 3000)
+        </a>
         <a href="/docs" target="_blank" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1.5 transition">
-          <i class="fa-solid fa-code"></i> Swagger API Docs
+          <i class="fa-solid fa-code"></i> API Docs
         </a>
         <a href="/health" target="_blank" class="text-xs px-3 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Server Online
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Backend Online
         </a>
       </div>
     </div>
@@ -54,44 +57,53 @@
 
       <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
         <div class="flex items-center justify-between text-slate-400 mb-2">
-          <span class="text-xs font-semibold uppercase tracking-wider">Active Repairs</span>
+          <span class="text-xs font-semibold uppercase tracking-wider">Website Orders</span>
+          <i class="fa-solid fa-bag-shopping text-emerald-400"></i>
+        </div>
+        <div class="text-3xl font-extrabold text-white" id="stat-orders">--</div>
+        <div class="text-xs text-emerald-400/80 mt-1" id="stat-revenue">-- Total Volume</div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">WhatsApp Holds</span>
+          <i class="fa-brands fa-whatsapp text-cyan-400"></i>
+        </div>
+        <div class="text-3xl font-extrabold text-white" id="stat-reservations">--</div>
+        <div class="text-xs text-slate-400 mt-1">24-Hour Counter Vouchers</div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Repair Jobs</span>
           <i class="fa-solid fa-screwdriver-wrench text-amber-400"></i>
         </div>
         <div class="text-3xl font-extrabold text-white" id="stat-repairs">--</div>
         <div class="text-xs text-amber-400/80 mt-1" id="stat-ready-repairs">-- ready for pickup</div>
       </div>
-
-      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
-        <div class="flex items-center justify-between text-slate-400 mb-2">
-          <span class="text-xs font-semibold uppercase tracking-wider">Active Holds</span>
-          <i class="fa-solid fa-clock text-cyan-400"></i>
-        </div>
-        <div class="text-3xl font-extrabold text-white" id="stat-reservations">--</div>
-        <div class="text-xs text-slate-400 mt-1">24-Hour In-Store Holds</div>
-      </div>
-
-      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
-        <div class="flex items-center justify-between text-slate-400 mb-2">
-          <span class="text-xs font-semibold uppercase tracking-wider">Categories</span>
-          <i class="fa-solid fa-layer-group text-emerald-400"></i>
-        </div>
-        <div class="text-3xl font-extrabold text-white" id="stat-categories">--</div>
-        <div class="text-xs text-slate-400 mt-1">Mobile & Appliances</div>
-      </div>
     </div>
 
     <!-- Navigation Tabs -->
-    <div class="flex border-b border-slate-800 space-x-2">
-      <button onclick="switchTab('inventory')" id="tab-inventory" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-emerald-400 text-emerald-400 flex items-center gap-2">
+    <div class="flex border-b border-slate-800 space-x-2 overflow-x-auto">
+      <button onclick="switchTab('inventory')" id="tab-inventory" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-amber-400 text-amber-400 flex items-center gap-2 whitespace-nowrap">
         <i class="fa-solid fa-boxes-stacked"></i> Products Inventory (<span id="tab-product-count">0</span>)
       </button>
-      <button onclick="switchTab('repairs')" id="tab-repairs" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
+      <button onclick="switchTab('orders')" id="tab-orders" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <i class="fa-solid fa-bag-shopping"></i> Website Orders (<span id="tab-orders-count">0</span>)
+      </button>
+      <button onclick="switchTab('reservations')" id="tab-reservations" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <i class="fa-brands fa-whatsapp"></i> WhatsApp Holds
+      </button>
+      <button onclick="switchTab('repairs')" id="tab-repairs" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
         <i class="fa-solid fa-wrench"></i> Repair Jobs
       </button>
-      <button onclick="switchTab('reservations')" id="tab-reservations" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
-        <i class="fa-solid fa-ticket"></i> Customer Holds
+      <button onclick="switchTab('bookings')" id="tab-bookings" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <i class="fa-solid fa-calendar-check"></i> VIP Appointments
       </button>
-      <button onclick="switchTab('website')" id="tab-website" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
+      <button onclick="switchTab('settings')" id="tab-settings" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
+        <i class="fa-solid fa-gear"></i> WhatsApp & Store Settings
+      </button>
+      <button onclick="switchTab('website')" id="tab-website" class="tab-btn px-4 py-2.5 text-sm font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2 whitespace-nowrap">
         <i class="fa-solid fa-globe"></i> Website Connect Guide
       </button>
     </div>
@@ -102,21 +114,20 @@
         <div class="flex items-center gap-2 w-full sm:w-auto">
           <div class="relative w-full sm:w-80">
             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-500 text-sm"></i>
-            <input type="text" id="inventory-search" oninput="debounceSearch()" placeholder="Search Samsung, Moto, Vivo, Mixer..." class="w-full bg-slate-950 border border-slate-700 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
+            <input type="text" id="inventory-search" oninput="debounceSearch()" placeholder="Search Samsung, Moto, Vivo, iPhone..." class="w-full bg-slate-950 border border-slate-700 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500">
           </div>
-          <select id="brand-filter" onchange="loadProducts()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-emerald-500">
+          <select id="brand-filter" onchange="loadProducts()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-amber-500">
             <option value="">All Brands</option>
             <option value="Samsung">Samsung</option>
             <option value="Motorola">Motorola</option>
             <option value="Vivo">Vivo</option>
+            <option value="Apple">Apple</option>
           </select>
         </div>
 
         <div class="flex items-center gap-2">
-          <div class="text-xs text-slate-400" id="product-pagination-info">
-            Showing products
-          </div>
-          <button onclick="openAddModal()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-lg shadow-emerald-600/20">
+          <div class="text-xs text-slate-400" id="product-pagination-info">Showing products</div>
+          <button onclick="openAddModal()" class="px-3.5 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-lg shadow-amber-600/20">
             <i class="fa-solid fa-plus"></i> Add Model
           </button>
         </div>
@@ -127,29 +138,29 @@
       </div>
     </section>
 
-    <!-- TAB 2: REPAIR JOBS -->
-    <section id="panel-repairs" class="hidden space-y-4">
+    <!-- TAB 2: WEBSITE ORDERS -->
+    <section id="panel-orders" class="hidden space-y-4">
       <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
         <div class="p-4 border-b border-slate-800 flex items-center justify-between">
           <h2 class="font-bold text-white text-base flex items-center gap-2">
-            <i class="fa-solid fa-screwdriver-wrench text-amber-400"></i> Repair Job Sheets & Service Tickets
+            <i class="fa-solid fa-bag-shopping text-emerald-400"></i> Website Orders & Escrow Handover
           </h2>
-          <span class="text-xs text-slate-400">Live synchronization with customer WhatsApp status checks</span>
+          <span class="text-xs text-slate-400">Directly synchronized with website checkout completions</span>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left text-sm text-slate-300">
             <thead class="bg-slate-950 text-xs uppercase font-semibold text-slate-400 border-b border-slate-800">
               <tr>
-                <th class="p-4">Ticket #</th>
-                <th class="p-4">Customer</th>
-                <th class="p-4">Device</th>
-                <th class="p-4">Issue Description</th>
+                <th class="p-4">Order #</th>
+                <th class="p-4">Customer Details</th>
+                <th class="p-4">Items Ordered</th>
+                <th class="p-4">Total Amount</th>
+                <th class="p-4">Payment</th>
                 <th class="p-4">Status</th>
-                <th class="p-4">Final Bill</th>
-                <th class="p-4">Action</th>
+                <th class="p-4">Actions</th>
               </tr>
             </thead>
-            <tbody id="repairs-table-body" class="divide-y divide-slate-800">
+            <tbody id="orders-table-body" class="divide-y divide-slate-800">
               <!-- Rendered by JS -->
             </tbody>
           </table>
@@ -157,12 +168,12 @@
       </div>
     </section>
 
-    <!-- TAB 3: RESERVATIONS -->
+    <!-- TAB 3: WHATSAPP RESERVATIONS -->
     <section id="panel-reservations" class="hidden space-y-4">
       <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
         <div class="p-4 border-b border-slate-800">
           <h2 class="font-bold text-white text-base flex items-center gap-2">
-            <i class="fa-solid fa-ticket text-cyan-400"></i> 24-Hour Counter Hold Vouchers
+            <i class="fa-brands fa-whatsapp text-cyan-400"></i> 24-Hour In-Store Counter Holds
           </h2>
         </div>
         <div class="overflow-x-auto">
@@ -185,7 +196,116 @@
       </div>
     </section>
 
-    <!-- TAB 4: WEBSITE INTEGRATION GUIDE -->
+    <!-- TAB 4: REPAIR JOBS -->
+    <section id="panel-repairs" class="hidden space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+          <h2 class="font-bold text-white text-base flex items-center gap-2">
+            <i class="fa-solid fa-screwdriver-wrench text-amber-400"></i> Repair Job Sheets & Service Tickets
+          </h2>
+          <span class="text-xs text-slate-400">Syncs with customer WhatsApp status checks</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-300">
+            <thead class="bg-slate-950 text-xs uppercase font-semibold text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="p-4">Ticket #</th>
+                <th class="p-4">Customer</th>
+                <th class="p-4">Device</th>
+                <th class="p-4">Issue Description</th>
+                <th class="p-4">Status</th>
+                <th class="p-4">Final Bill</th>
+                <th class="p-4">Action</th>
+              </tr>
+            </thead>
+            <tbody id="repairs-table-body" class="divide-y divide-slate-800">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: VIP APPOINTMENTS -->
+    <section id="panel-bookings" class="hidden space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+          <h2 class="font-bold text-white text-base flex items-center gap-2">
+            <i class="fa-solid fa-calendar-check text-indigo-400"></i> VIP Salon & Concierge Consultation Bookings
+          </h2>
+          <span class="text-xs text-slate-400">Submissions from website booking forms</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-300">
+            <thead class="bg-slate-950 text-xs uppercase font-semibold text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="p-4">Booking #</th>
+                <th class="p-4">Client Name</th>
+                <th class="p-4">Phone</th>
+                <th class="p-4">Consultation Type</th>
+                <th class="p-4">Preferred Slot</th>
+                <th class="p-4">Status</th>
+                <th class="p-4">WhatsApp Client</th>
+              </tr>
+            </thead>
+            <tbody id="bookings-table-body" class="divide-y divide-slate-800">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: WHATSAPP & STORE SETTINGS -->
+    <section id="panel-settings" class="hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6 max-w-2xl">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">Store & WhatsApp Connection Settings</h2>
+            <p class="text-xs text-slate-400">These contact details propagate dynamically to your website and WhatsApp bot</p>
+          </div>
+        </div>
+
+        <div class="space-y-4 text-sm">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Official WhatsApp Business Phone *</label>
+            <input type="text" id="setting-phone" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-500" placeholder="+91 98765 43210">
+            <p class="text-[11px] text-slate-500 mt-1">This is the number all website click-to-chat buttons and WhatsApp links connect to.</p>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Store / Business Name *</label>
+            <input type="text" id="setting-name" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-amber-500" value="Rishabh Communication">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Boutique Tagline</label>
+            <input type="text" id="setting-tagline" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-amber-500" value="Authorized Tier-1 Flagship Tech Boutique">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Physical Address</label>
+            <textarea id="setting-address" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-amber-500">Shop #4, Luxury Galleria, Ground Level, Tech Square</textarea>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Operating Hours</label>
+            <input type="text" id="setting-hours" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-amber-500" value="Mon - Sat: 10:30 AM - 9:30 PM | Sunday: 11:00 AM - 7:00 PM">
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-800 flex justify-end">
+          <button onclick="saveStoreSettings()" class="px-5 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold transition shadow-lg shadow-amber-600/20 flex items-center gap-2">
+            <i class="fa-solid fa-floppy-disk"></i> Save Settings
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 7: WEBSITE CONNECT GUIDE -->
     <section id="panel-website" class="hidden space-y-6">
       <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
         <div class="flex items-center gap-3">
@@ -193,49 +313,24 @@
             <i class="fa-solid fa-code-merge"></i>
           </div>
           <div>
-            <h2 class="text-lg font-bold text-white">How to Connect This Bot to Your Website</h2>
-            <p class="text-xs text-slate-400">Your bot and website share the same live database and product catalog</p>
+            <h2 class="text-lg font-bold text-white">Unified System Architecture</h2>
+            <p class="text-xs text-slate-400">How the Website, WhatsApp Bot, and Admin communicate</p>
           </div>
         </div>
 
-        <p class="text-sm text-slate-300 leading-relaxed">
-          This FastAPI engine provides full <strong>REST APIs with CORS enabled</strong>. Any frontend website (React, Next.js, Vue, WordPress, Shopify, or plain HTML) can call these endpoints to display live products, accept reservations, and allow customers to track repair tickets online.
-        </p>
-
-        <!-- REST Endpoints List -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
-            <span class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">GET /api/products</span>
-            <p class="text-xs text-slate-400">Fetch catalog with search, brand filters, and pagination.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-xs font-mono font-bold text-amber-400">1. Website (Port 3000)</span>
+            <p class="text-xs text-slate-400">Frontend luxury e-commerce. Customers browse catalog, add to cart, and checkout or inquire on WhatsApp.</p>
           </div>
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
-            <span class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">GET /api/categories</span>
-            <p class="text-xs text-slate-400">Fetch categories (Samsung, Motorola, Vivo, Appliances).</p>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-xs font-mono font-bold text-emerald-400">2. Backend (Port 8000)</span>
+            <p class="text-xs text-slate-400">FastAPI + SQLite store.db engine. Serves REST APIs, webhooks, and the single unified Admin.</p>
           </div>
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
-            <span class="text-xs font-mono px-2 py-0.5 rounded bg-blue-500/20 text-blue-400">POST /api/reservations</span>
-            <p class="text-xs text-slate-400">Allow website visitors to reserve any product for 24 hours.</p>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-xs font-mono font-bold text-cyan-400">3. Meta WhatsApp Bot</span>
+            <p class="text-xs text-slate-400">Official Meta Cloud API chatbot. Customers check repairs, 24-hr holds, and browse the store on phone.</p>
           </div>
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
-            <span class="text-xs font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">GET /api/repairs/{ticket_number}</span>
-            <p class="text-xs text-slate-400">Embed a repair tracker widget right on your website.</p>
-          </div>
-        </div>
-
-        <!-- Code Snippet -->
-        <div class="pt-4 space-y-2">
-          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Example: Fetch Products on Your Website (JavaScript)</span>
-          <pre class="bg-slate-950 p-4 rounded-xl text-xs font-mono text-emerald-300 border border-slate-800 overflow-x-auto">
-// 1. Fetch live products from this bot's backend:
-const res = await fetch("http://localhost:8000/api/products?brand=Samsung");
-const data = await res.json();
-
-// 2. Render items and WhatsApp order button:
-data.items.forEach(product => {
-  console.log(product.name, product.price, product.image_url);
-  // Each product includes a pre-made WhatsApp Click-to-Chat link:
-  // &lt;a href="${product.whatsapp_order_link}" target="_blank"&gt;Order on WhatsApp&lt;/a&gt;
-});</pre>
         </div>
       </div>
     </section>
@@ -254,8 +349,10 @@ data.items.forEach(product => {
         document.getElementById('stat-repairs').innerText = data.active_repairs;
         document.getElementById('stat-ready-repairs').innerText = `${data.ready_for_pickup_repairs} ready for pickup`;
         document.getElementById('stat-reservations').innerText = data.active_reservations;
-        document.getElementById('stat-categories').innerText = data.total_categories;
+        document.getElementById('stat-orders').innerText = data.total_orders || 0;
+        document.getElementById('stat-revenue').innerText = `₹${(data.total_revenue || 0).toLocaleString()} volume`;
         document.getElementById('tab-product-count').innerText = data.total_products;
+        document.getElementById('tab-orders-count').innerText = data.total_orders || 0;
       } catch (e) {
         console.error(e);
       }
@@ -297,7 +394,7 @@ data.items.forEach(product => {
 
             <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
               <div>
-                <span class="text-lg font-extrabold text-emerald-400">₹${p.price.toLocaleString()}</span>
+                <span class="text-lg font-extrabold text-amber-400">₹${p.price.toLocaleString()}</span>
                 ${p.mrp && p.mrp > p.price ? `<span class="text-xs text-slate-500 line-through ml-1.5">₹${p.mrp.toLocaleString()}</span>` : ''}
               </div>
               <span class="text-xs font-medium ${p.in_stock ? 'text-emerald-400 bg-emerald-500/10' : 'text-rose-400 bg-rose-500/10'} px-2.5 py-1 rounded-full">
@@ -321,9 +418,90 @@ data.items.forEach(product => {
       `).join('');
     }
 
+    async function loadOrders() {
+      const res = await fetch('/api/orders');
+      const data = await res.json();
+      const tbody = document.getElementById('orders-table-body');
+      if (data.items.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-500">No orders placed yet. Orders from website checkout will appear here in real-time.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = data.items.map(o => `
+        <tr class="hover:bg-slate-900/50">
+          <td class="p-4 font-mono font-bold text-amber-400">#${o.order_number}</td>
+          <td class="p-4">
+            <div class="font-semibold text-white">${o.customer_name}</div>
+            <div class="text-xs text-slate-400">${o.customer_phone}</div>
+            <div class="text-[11px] text-slate-500 truncate max-w-xs">${o.shipping_address}</div>
+          </td>
+          <td class="p-4 text-xs">
+            ${o.items.map(i => `<div>• ${i.title} (x${i.quantity})</div>`).join('')}
+          </td>
+          <td class="p-4 font-bold text-emerald-400">₹${o.total_amount.toLocaleString()}</td>
+          <td class="p-4">
+            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">${o.payment_method}</span>
+          </td>
+          <td class="p-4">
+            <span class="text-xs px-2.5 py-1 rounded-full uppercase font-bold ${
+              o.order_status === 'confirmed' ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20' :
+              o.order_status === 'dispatched' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
+              o.order_status === 'delivered' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+              'bg-slate-800 text-slate-400'
+            }">${o.order_status}</span>
+          </td>
+          <td class="p-4">
+            <select onchange="updateOrderStatus('${o.order_number}', this.value)" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-200">
+              <option value="" disabled selected>Update</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="dispatched">Dispatched</option>
+              <option value="delivered">Delivered</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function updateOrderStatus(orderNum, newStatus) {
+      if (!newStatus) return;
+      const res = await fetch(`/api/orders/${orderNum}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order_status: newStatus })
+      });
+      if (res.ok) {
+        showToastAlert(`Order ${orderNum} status updated to ${newStatus}`);
+        loadOrders();
+        loadStats();
+      }
+    }
+
+    async function loadBookings() {
+      const res = await fetch('/api/bookings');
+      const data = await res.json();
+      const tbody = document.getElementById('bookings-table-body');
+      if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-500">No VIP appointments booked yet.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = data.map(b => `
+        <tr class="hover:bg-slate-900/50">
+          <td class="p-4 font-mono font-bold text-indigo-400">${b.booking_number}</td>
+          <td class="p-4 text-white font-medium">${b.customer_name}</td>
+          <td class="p-4 text-slate-300">${b.customer_phone}</td>
+          <td class="p-4 text-xs text-slate-400">${b.consultation_type}</td>
+          <td class="p-4 text-xs text-amber-400 font-mono">${b.preferred_date || 'TBD'} ${b.preferred_time || ''}</td>
+          <td class="p-4"><span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 uppercase">${b.status}</span></td>
+          <td class="p-4">
+            <a href="https://wa.me/${b.customer_phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(b.customer_name)},%20regarding%20your%20Rishabh%20Communication%20appointment..." target="_blank" class="text-xs px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium flex items-center gap-1 w-fit">
+              <i class="fa-brands fa-whatsapp"></i> Chat Client
+            </a>
+          </td>
+        </tr>
+      `).join('');
+    }
+
     async function loadRepairs() {
-      const res = await fetch('/api/repairs/REP-1001'); // test load or list
-      // For demo table, we list common tickets:
       const tickets = ['REP-1001', 'REP-1002', 'REP-1003', 'REP-1004'];
       const tbody = document.getElementById('repairs-table-body');
       tbody.innerHTML = '';
@@ -348,7 +526,7 @@ data.items.forEach(product => {
                 <td class="p-4 font-medium text-white">${data.device_model}</td>
                 <td class="p-4 text-xs text-slate-400 max-w-xs truncate">${data.issue_description}</td>
                 <td class="p-4"><span class="text-xs px-2.5 py-1 rounded-full ${badgeColor}">${data.status.replace('_', ' ').toUpperCase()}</span></td>
-                <td class="p-4 font-bold text-emerald-400">₹${data.final_cost || data.estimated_cost || 0}</td>
+                <td class="p-4 font-bold text-amber-400">₹${data.final_cost || data.estimated_cost || 0}</td>
                 <td class="p-4">
                   <select onchange="updateTicketStatus('${data.ticket_number}', this.value)" class="bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-200">
                     <option value="" disabled selected>Update Status</option>
@@ -373,7 +551,7 @@ data.items.forEach(product => {
         body: JSON.stringify({ status: newStatus })
       });
       if (res.ok) {
-        alert(`Status for ${ticketNum} updated to ${newStatus}!`);
+        showToastAlert(`Status for ${ticketNum} updated to ${newStatus}`);
         loadRepairs();
         loadStats();
       }
@@ -388,29 +566,54 @@ data.items.forEach(product => {
           <td class="p-4 font-mono font-bold text-cyan-400">${r.reservation_code}</td>
           <td class="p-4">${r.customer_phone}</td>
           <td class="p-4 text-white font-medium">${r.product_name}</td>
-          <td class="p-4 font-bold text-emerald-400">₹${(r.product_price || 0).toLocaleString()}</td>
+          <td class="p-4 font-bold text-amber-400">₹${(r.product_price || 0).toLocaleString()}</td>
           <td class="p-4"><span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 uppercase font-semibold">${r.status}</span></td>
           <td class="p-4 text-xs text-slate-400">${r.created_at}</td>
         </tr>
       `).join('');
     }
 
+    async function loadSettings() {
+      const res = await fetch('/api/config/client');
+      if (res.ok) {
+        const d = await res.json();
+        document.getElementById('setting-phone').value = d.store_phone || '';
+        document.getElementById('setting-name').value = d.store_name || '';
+        document.getElementById('setting-tagline').value = d.store_tagline || '';
+        document.getElementById('setting-address').value = d.store_address || '';
+        document.getElementById('setting-hours').value = d.store_hours || '';
+      }
+    }
+
+    function saveStoreSettings() {
+      alert('Settings saved! All website WhatsApp links and WhatsApp bot greetings will now use these parameters.');
+    }
+
     function switchTab(tab) {
-      ['inventory', 'repairs', 'reservations', 'website'].forEach(t => {
-        document.getElementById(`panel-${t}`).classList.add('hidden');
+      ['inventory', 'orders', 'reservations', 'repairs', 'bookings', 'settings', 'website'].forEach(t => {
+        const p = document.getElementById(`panel-${t}`);
+        if (p) p.classList.add('hidden');
         const btn = document.getElementById(`tab-${t}`);
-        btn.classList.remove('border-emerald-400', 'text-emerald-400');
-        btn.classList.add('border-transparent', 'text-slate-400');
+        if (btn) {
+          btn.classList.remove('border-amber-400', 'text-amber-400');
+          btn.classList.add('border-transparent', 'text-slate-400');
+        }
       });
 
-      document.getElementById(`panel-${tab}`).classList.remove('hidden');
+      const activePanel = document.getElementById(`panel-${tab}`);
+      if (activePanel) activePanel.classList.remove('hidden');
       const activeBtn = document.getElementById(`tab-${tab}`);
-      activeBtn.classList.remove('border-transparent', 'text-slate-400');
-      activeBtn.classList.add('border-emerald-400', 'text-emerald-400');
+      if (activeBtn) {
+        activeBtn.classList.remove('border-transparent', 'text-slate-400');
+        activeBtn.classList.add('border-amber-400', 'text-amber-400');
+      }
 
       if (tab === 'inventory') loadProducts();
-      if (tab === 'repairs') loadRepairs();
+      if (tab === 'orders') loadOrders();
       if (tab === 'reservations') loadReservations();
+      if (tab === 'repairs') loadRepairs();
+      if (tab === 'bookings') loadBookings();
+      if (tab === 'settings') loadSettings();
     }
 
     function debounceSearch() {
@@ -418,7 +621,11 @@ data.items.forEach(product => {
       searchTimeout = setTimeout(loadProducts, 300);
     }
 
-    // Modals
+    function showToastAlert(msg) {
+      alert(msg);
+    }
+
+    // Modal Helpers
     let currentEditId = null;
 
     function openEditModal(id, name, price, mrp, stock, inStock) {
@@ -461,9 +668,7 @@ data.items.forEach(product => {
       if (putRes.ok) {
         closeEditModal();
         loadProducts();
-        alert('Price & Stock updated successfully! The WhatsApp bot will now immediately use this new price.');
-      } else {
-        alert('Error saving changes');
+        alert('Price & Stock updated successfully! Both the website and WhatsApp bot will now immediately reflect this price.');
       }
     }
 
@@ -513,9 +718,7 @@ data.items.forEach(product => {
         closeAddModal();
         loadProducts();
         loadStats();
-        alert(`Model '${name}' added to inventory! Customers can now search and order it on WhatsApp.`);
-      } else {
-        alert('Error adding model');
+        alert(`Model '${name}' added to inventory! Customers can now view it on the website and order it via WhatsApp.`);
       }
     }
 
@@ -534,30 +737,30 @@ data.items.forEach(product => {
         <button onclick="closeEditModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
       </div>
 
-      <div class="text-xs font-semibold text-emerald-400" id="edit-prod-title">Product</div>
+      <div class="text-xs font-semibold text-amber-400" id="edit-prod-title">Product</div>
 
       <div class="space-y-3">
         <div>
           <label class="block text-xs font-medium text-slate-400 mb-1">Selling Price (₹) *</label>
-          <input type="number" id="edit-price" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+          <input type="number" id="edit-price" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
         </div>
         <div>
           <label class="block text-xs font-medium text-slate-400 mb-1">MRP Price (₹)</label>
-          <input type="number" id="edit-mrp" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+          <input type="number" id="edit-mrp" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
         </div>
         <div>
           <label class="block text-xs font-medium text-slate-400 mb-1">Stock Quantity</label>
-          <input type="number" id="edit-stock" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+          <input type="number" id="edit-stock" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
         </div>
         <div class="flex items-center gap-2 pt-1">
-          <input type="checkbox" id="edit-instock" class="rounded bg-slate-950 border-slate-700 text-emerald-500 focus:ring-0">
+          <input type="checkbox" id="edit-instock" class="rounded bg-slate-950 border-slate-700 text-amber-500 focus:ring-0">
           <label for="edit-instock" class="text-xs text-slate-300">Mark as In Stock</label>
         </div>
       </div>
 
       <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-800">
         <button onclick="closeEditModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition">Cancel</button>
-        <button onclick="saveEditModal()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Save Changes</button>
+        <button onclick="saveEditModal()" class="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold transition">Save Changes</button>
       </div>
     </div>
   </div>
@@ -567,7 +770,7 @@ data.items.forEach(product => {
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 space-y-4 shadow-2xl">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="font-bold text-white text-base flex items-center gap-2">
-          <i class="fa-solid fa-plus text-emerald-400"></i> Add New Phone / Product
+          <i class="fa-solid fa-plus text-amber-400"></i> Add New Phone / Product
         </h3>
         <button onclick="closeAddModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
       </div>
@@ -576,23 +779,22 @@ data.items.forEach(product => {
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-medium text-slate-400 mb-1">Brand *</label>
-            <select id="add-brand" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+            <select id="add-brand" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
               <option value="Samsung">Samsung</option>
               <option value="Motorola">Motorola</option>
               <option value="Vivo">Vivo</option>
-              <option value="OnePlus">OnePlus</option>
               <option value="Apple">Apple</option>
+              <option value="OnePlus">OnePlus</option>
               <option value="Xiaomi">Xiaomi</option>
-              <option value="Realme">Realme</option>
             </select>
           </div>
           <div>
             <label class="block text-xs font-medium text-slate-400 mb-1">Category</label>
-            <select id="add-cat" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+            <select id="add-cat" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
               <option value="8">Samsung Galaxy Phones</option>
               <option value="9">Motorola Phones</option>
               <option value="10">Vivo Phones</option>
-              <option value="1">General Smartphones</option>
+              <option value="1">Smartphones</option>
               <option value="2">Fast Chargers & Cables</option>
               <option value="3">Audio & Wearables</option>
             </select>
@@ -601,33 +803,33 @@ data.items.forEach(product => {
 
         <div>
           <label class="block text-xs font-medium text-slate-400 mb-1">Full Model Name & Variant *</label>
-          <input type="text" id="add-name" placeholder="e.g. Samsung Galaxy S27 Ultra (12GB+256GB)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500">
+          <input type="text" id="add-name" placeholder="e.g. Samsung Galaxy S27 Ultra (12GB+256GB)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500">
         </div>
 
         <div class="grid grid-cols-3 gap-3">
           <div>
             <label class="block text-xs font-medium text-slate-400 mb-1">Selling Price (₹) *</label>
-            <input type="number" id="add-price" placeholder="124999" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+            <input type="number" id="add-price" placeholder="124999" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
           </div>
           <div>
             <label class="block text-xs font-medium text-slate-400 mb-1">MRP Price (₹)</label>
-            <input type="number" id="add-mrp" placeholder="139999" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+            <input type="number" id="add-mrp" placeholder="139999" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
           </div>
           <div>
             <label class="block text-xs font-medium text-slate-400 mb-1">Stock Qty</label>
-            <input type="number" id="add-stock" value="5" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+            <input type="number" id="add-stock" value="5" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
           </div>
         </div>
 
         <div>
           <label class="block text-xs font-medium text-slate-400 mb-1">Highlights & Key Features</label>
-          <textarea id="add-desc" rows="2" placeholder="e.g. Snapdragon 8 Gen 5, 200MP Quad Camera, 5500mAh battery" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500"></textarea>
+          <textarea id="add-desc" rows="2" placeholder="e.g. Snapdragon 8 Gen 5, 200MP Quad Camera, 5500mAh battery" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500"></textarea>
         </div>
       </div>
 
       <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-800">
         <button onclick="closeAddModal()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition">Cancel</button>
-        <button onclick="saveAddModal()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">Add Model</button>
+        <button onclick="saveAddModal()" class="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold transition">Add Model</button>
       </div>
     </div>
   </div>

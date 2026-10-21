@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Authorized Fleet Catalog | Rishabh Communication</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-primary": "#ffffff",
+            "error-container": "#fce4e0",
+            "on-secondary-fixed": "#2a2420",
+            "on-primary-fixed-variant": "#8a4518",
+            "tertiary-fixed-dim": "#e8a0a0",
+            "surface-container-high": "#ece6dc",
+            "secondary-fixed-dim": "#cec6be",
+            "on-tertiary-fixed": "#2e1515",
+            "background": "#faf5ee",
+            "inverse-on-surface": "#faf5ee",
+            "on-tertiary": "#ffffff",
+            "inverse-surface": "#3a302a",
+            "inverse-primary": "#f0a878",
+            "on-error-container": "#7a1a10",
+            "surface-container-low": "#f6f0e8",
+            "error": "#c0392b",
+            "primary-fixed": "#fbe8d8",
+            "surface-tint": "#c2652a",
+            "on-secondary-container": "#605850",
+            "surface-bright": "#faf5ee",
+            "outline-variant": "#d8d0c8",
+            "primary-container": "#e08850",
+            "tertiary-fixed": "#fce0e0",
+            "surface-dim": "#dcd6cc",
+            "surface-variant": "#ece6dc",
+            "on-secondary": "#ffffff",
+            "tertiary": "#8c3c3c",
+            "surface-container-lowest": "#ffffff",
+            "surface-container": "#f2ece4",
+            "primary-fixed-dim": "#f0a878",
+            "on-tertiary-fixed-variant": "#6e3030",
+            "on-error": "#ffffff",
+            "on-secondary-fixed-variant": "#504840",
+            "primary": "#c2652a",
+            "on-tertiary-container": "#3a2020",
+            "on-surface-variant": "#605850",
+            "outline": "#9a9088",
+            "on-background": "#3a302a",
+            "surface": "#faf5ee",
+            "secondary-container": "#eae2da",
+            "secondary-fixed": "#eae2da",
+            "secondary": "#78706a",
+            "on-surface": "#3a302a",
+            "on-primary-fixed": "#401a08",
+            "tertiary-container": "#d47070",
+            "on-primary-container": "#fbe8d8",
+            "surface-container-highest": "#e6e0d6"
+          },
+          fontFamily: {
+            headline: ["EB Garamond", "serif"],
+            display: ["EB Garamond", "serif"],
+            body: ["Manrope", "sans-serif"],
+            label: ["Manrope", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  
+  <link rel="stylesheet" href="css/theme.css"/>
+</head>
+<body class="bg-background font-body text-on-surface antialiased min-h-screen flex flex-col">
+
+  <!-- HEADER NAVIGATION -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-surface/85 backdrop-blur-xl border-b border-outline-variant/60 shadow-[0_2px_16px_rgba(58,48,42,0.04)]">
+    <div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-6">
+      
+      <!-- Logo & Brand -->
+      <div class="flex items-center gap-10">
+        <a class="flex items-center gap-3 group" href="index.html">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center p-1.5 shadow-xs">
+            <svg viewBox="0 0 32 32" fill="none" class="w-full h-full text-primary" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 6H16C20.4183 6 24 9.58172 24 14C24 18.4183 20.4183 22 16 22H6V6Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 22H14L22 30" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="24" cy="9" r="2.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-headline text-2xl lg:text-3xl font-semibold tracking-tight text-on-surface">Rishabh</span>
+            <span class="text-[10px] uppercase font-label tracking-[0.25em] text-primary font-medium -mt-1">Communication • Flagship</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden xl:flex items-center gap-6">
+          <a class="text-sm text-on-surface-variant hover:text-primary transition-colors" href="index.html">Home</a>
+          <button onclick="openBrandModal('smartphones', 'Smartphone')" class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Smartphone</button>
+          <button onclick="openBrandModal('smartwatches', 'Smartwatch')" class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Smartwatch</button>
+          <button onclick="openBrandModal('earbuds', 'Earbuds')" class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Earbuds</button>
+          <button onclick="openBrandModal('headphones', 'Headphones')" class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Headphones</button>
+          
+          <!-- Other Dropdown -->
+          <div class="relative group">
+            <button class="flex items-center gap-1 text-sm font-medium text-on-surface-variant group-hover:text-primary transition-colors py-2 cursor-pointer focus:outline-none">
+              <span>Other</span>
+              <span class="material-symbols-outlined text-base transition-transform group-hover:rotate-180">expand_more</span>
+            </button>
+            <div class="absolute left-0 top-full pt-1 hidden group-hover:block z-50 min-w-[170px]">
+              <div class="bg-surface-container-lowest/95 backdrop-blur-xl border border-outline-variant/60 rounded-xl shadow-xl p-1.5 space-y-1">
+                <button onclick="openBrandModal('powerbanks', 'Powerbank')" class="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-on-surface hover:bg-surface-container hover:text-primary transition-colors flex items-center justify-between">
+                  <span>Powerbank</span>
+                  <span class="material-symbols-outlined text-[16px] text-primary">battery_charging_full</span>
+                </button>
+                <button onclick="openBrandModal('chargers', 'Charger')" class="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-on-surface hover:bg-surface-container hover:text-primary transition-colors flex items-center justify-between">
+                  <span>Charger</span>
+                  <span class="material-symbols-outlined text-[16px] text-primary">electric_bolt</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Action Utilities -->
+      <div class="flex items-center gap-3 lg:gap-5">
+        <!-- Search Input -->
+        <div class="hidden md:flex items-center bg-surface-container-low border border-outline-variant/60 rounded-lg px-3.5 py-1.5 w-56 lg:w-64">
+          <span class="material-symbols-outlined text-secondary text-[20px] mr-2.5">search</span>
+          <input class="bg-transparent w-full text-sm text-on-surface placeholder:text-secondary focus:outline-none font-body" id="catalogSearchInput" placeholder="Search authorized devices..." type="text"/>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Mobile Menu Toggle Button -->
+          <button onclick="toggleMobileNav(true)" class="xl:hidden w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" aria-label="Open Navigation Menu">
+            <span class="material-symbols-outlined text-[24px]">menu</span>
+          </button>
+          <!-- Wishlist Button -->
+          <button aria-label="Wishlist" class="relative w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-[22px]">favorite</span>
+            <span class="wishlist-badge-count absolute top-1.5 right-1.5 bg-tertiary text-on-primary text-[10px] font-semibold w-4 h-4 rounded-full flex items-center justify-center" style="display:none;">0</span>
+          </button>
+
+          <!-- Shopping Bag Button -->
+          <button aria-label="Shopping Bag" class="relative w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-[22px]">shopping_bag</span>
+            <span class="cart-badge-count absolute top-1.5 right-1.5 bg-primary text-on-primary text-[10px] font-semibold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+          </button>
+
+          <!-- Profile Link -->
+          <a aria-label="VIP Profile &amp; Dashboard" class="pl-1.5 flex items-center" href="profile.html">
+            <div class="w-9 h-9 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center hover:bg-primary/20 transition-colors">
+              <span class="material-symbols-outlined text-primary text-[20px]">person</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN BODY -->
+  <main class="w-full pt-20 bg-background flex-1">
+    <div class="flex flex-col w-full">
+
+      <!-- Ambient glow accents -->
+      <div class="relative w-full overflow-hidden">
+        <div class="absolute -top-32 right-12 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none"></div>
+        <div class="absolute top-80 -left-20 w-80 h-80 rounded-full bg-primary-container/10 blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 py-8 lg:py-12 space-y-12">
+          
+          <!-- SECTION 1: BREADCRUMBS & HERO INTRO -->
+          <section class="flex flex-col space-y-6">
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <nav aria-label="Breadcrumbs" class="flex items-center gap-2 text-xs font-label uppercase tracking-widest text-secondary">
+                <a class="hover:text-primary transition-colors" href="index.html">Home</a>
+                <span class="text-outline-variant font-light">/</span>
+                <span class="text-on-surface font-semibold">Authorized Catalog</span>
+              </nav>
+
+              <div class="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-surface-container text-[11px] font-label font-medium tracking-widest text-on-surface-variant uppercase shadow-sm">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                <span>Authorized Fleet Allocations</span>
+                <span class="text-outline-variant">•</span>
+                <span class="text-primary font-semibold">Serial Audited</span>
+              </div>
+            </div>
+
+            <!-- Headline & Intro -->
+            <div class="max-w-4xl space-y-4">
+              <!-- Dedicated Selection Banner / Chip -->
+              <div id="dedicatedSelectionBanner" class="hidden inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-label font-semibold tracking-wider uppercase mb-1 shadow-xs">
+                <span class="material-symbols-outlined text-[16px]">verified</span>
+                <span id="dedicatedBadgeText">Dedicated Fleet</span>
+                <button onclick="resetFilters()" title="Reset to all portfolios" class="ml-2 hover:bg-primary/20 rounded-full w-5 h-5 flex items-center justify-center text-[11px] cursor-pointer">✕</button>
+              </div>
+
+              <h1 class="font-headline text-4xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-on-surface leading-[1.1]" id="catalogMainTitle">
+                Curated Portfolios of <span class="italic font-normal text-primary">Precision</span> Technology.
+              </h1>
+              <p class="text-base lg:text-lg text-on-surface-variant font-light leading-relaxed" id="catalogMainSubtitle">
+                Discover factory-sealed flagship smartphones, smartwatches, earbuds, headphones, and verified power utilities. Every unit is cataloged with tamper-evident serial provenance and direct tier-1 manufacturer warranty.
+              </p>
+            </div>
+
+            <!-- Category Filter Tabs -->
+            <div class="pt-2">
+              <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none" id="categoryTabs">
+                <button class="cat-pill active px-5 py-2.5 rounded-lg text-xs font-label font-semibold tracking-wide transition-all bg-primary text-on-primary shadow-sm" data-category="all">
+                  All Editions (<span id="count-all">0</span>)
+                </button>
+                <button class="cat-pill px-5 py-2.5 rounded-lg text-xs font-label font-medium tracking-wide transition-all bg-surface-container hover:bg-surface-container-high text-on-surface-variant" data-category="smartphones">
+                  Smartphone (<span id="count-smartphones">0</span>)
+                </button>
+                <button class="cat-pill px-5 py-2.5 rounded-lg text-xs font-label font-medium tracking-wide transition-all bg-surface-container hover:bg-surface-container-high text-on-surface-variant" data-category="smartwatches">
+                  Smartwatch (<span id="count-smartwatches">0</span>)
+                </button>
+                <button class="cat-pill px-5 py-2.5 rounded-lg text-xs font-label font-medium tracking-wide transition-all bg-surface-container hover:bg-surface-container-high text-on-surface-variant" data-category="earbuds">
+                  Earbuds (<span id="count-earbuds">0</span>)
+                </button>
+                <button class="cat-pill px-5 py-2.5 rounded-lg text-xs font-label font-medium tracking-wide transition-all bg-surface-container hover:bg-surface-container-high text-on-surface-variant" data-category="headphones">
+                  Headphones (<span id="count-headphones">0</span>)
+                </button>
+                <button class="cat-pill px-5 py-2.5 rounded-lg text-xs font-label font-medium tracking-wide transition-all bg-surface-container hover:bg-surface-container-high text-on-surface-variant" data-category="powerbanks">
+                  Powerbank (<span id="count-powerbanks">0</span>)
+                </button>
+                <button class="cat-pill px-5 py-2.5 rounded-lg text-xs font-label font-medium tracking-wide transition-all bg-surface-container hover:bg-surface-container-high text-on-surface-variant" data-category="chargers">
+                  Charger (<span id="count-chargers">0</span>)
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- SECTION 2: FILTER SIDEBAR & PRODUCT MATRIX -->
+          <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Sidebar: Filter Panel -->
+            <aside class="lg:col-span-3 w-full bg-surface-container-lowest/80 backdrop-blur-md rounded-xl p-6 shadow-sm space-y-7 border border-outline-variant/40">
+              
+              <!-- Refine Header -->
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2 text-on-surface font-label font-semibold text-sm tracking-wide uppercase">
+                  <span class="material-symbols-outlined text-primary text-[19px]">tune</span>
+                  <span>Refine Catalog</span>
+                </div>
+                <button class="text-xs font-label text-primary hover:text-on-primary-fixed-variant transition-colors underline underline-offset-4 decoration-primary/40 font-medium cursor-pointer" onclick="resetFilters()">
+                  Reset All
+                </button>
+              </div>
+
+              <!-- Filter 1: Fulfillment Assurance -->
+              <div class="space-y-3.5">
+                <h4 class="text-[11px] font-label font-semibold uppercase tracking-widest text-secondary">Fulfillment Assurance</h4>
+                <div class="space-y-2.5 text-xs text-on-surface">
+                  <label class="flex items-center gap-2.5 cursor-pointer group select-none">
+                    <input class="w-4 h-4 rounded text-primary accent-primary cursor-pointer filter-checkbox" id="filterInStock" type="checkbox"/>
+                    <span class="group-hover:text-primary transition-colors font-medium">In Stock Only</span>
+                  </label>
+                  <label class="flex items-center gap-2.5 cursor-pointer group select-none">
+                    <input class="w-4 h-4 rounded text-primary accent-primary cursor-pointer filter-checkbox" id="filterOemSealed" type="checkbox"/>
+                    <span class="group-hover:text-primary transition-colors font-medium">OEM Sealed Direct</span>
+                  </label>
+                  <label class="flex items-center gap-2.5 cursor-pointer group select-none">
+                    <input class="w-4 h-4 rounded text-primary accent-primary cursor-pointer filter-checkbox" id="filterVipSetup" type="checkbox"/>
+                    <span class="group-hover:text-primary transition-colors font-medium">VIP Doorstep Setup Available</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Filter 2: Brands -->
+              <div class="space-y-3.5">
+                <h4 class="text-[11px] font-label font-semibold uppercase tracking-widest text-secondary">Authorized Brands</h4>
+                <div class="space-y-2 text-xs text-on-surface" id="brandFilterContainer">
+                  <!-- Generated Dynamically -->
+                </div>
+              </div>
+
+              <!-- Filter 3: Price Slider -->
+              <div class="space-y-3.5">
+                <div class="flex items-center justify-between">
+                  <h4 class="text-[11px] font-label font-semibold uppercase tracking-widest text-secondary">Price Ceiling</h4>
+                  <span class="font-mono text-xs font-semibold text-primary" id="priceDisplay">Up to ₹1,60,000</span>
+                </div>
+                <div class="space-y-2">
+                  <input class="w-full h-1.5 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary" id="priceRange" max="160000" min="500" step="1000" type="range" value="160000"/>
+                  <div class="flex justify-between text-[10px] font-mono text-secondary">
+                    <span>₹500</span>
+                    <span>₹80,000</span>
+                    <span>₹1,60,000</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Filter 4: Sorting -->
+              <div class="space-y-2 pt-1">
+                <h4 class="text-[11px] font-label font-semibold uppercase tracking-widest text-secondary">Sort Precision</h4>
+                <div class="relative">
+                  <select class="w-full bg-surface-container-low text-xs text-on-surface rounded-lg px-3 py-2 pr-8 appearance-none focus:outline-none cursor-pointer font-medium border border-outline-variant/40" id="sortSelect">
+                    <option value="featured">Featured Allocations</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="rating">Highest Rated</option>
+                  </select>
+                  <span class="material-symbols-outlined absolute right-2.5 top-2.5 text-secondary pointer-events-none text-base">expand_more</span>
+                </div>
+              </div>
+
+              <!-- Assurance Guarantee Box -->
+              <div class="p-4 rounded-lg bg-surface-container-low/90 space-y-2.5 relative overflow-hidden border border-outline-variant/30">
+                <div class="flex items-center gap-2 text-primary">
+                  <span class="material-symbols-outlined text-[20px] fill">verified</span>
+                  <span class="text-xs font-label font-semibold tracking-wide uppercase">Rishabh Guarantee</span>
+                </div>
+                <p class="text-xs text-on-surface-variant font-light leading-relaxed">
+                  Every unit includes factory tamper seal, serialized IMEI certificate, and 1-year direct OEM manufacturer warranty with authorized concierge exchange.
+                </p>
+                <div class="pt-1 flex items-center gap-1.5 text-[10px] font-label text-secondary uppercase tracking-widest">
+                  <span class="material-symbols-outlined text-[13px] text-primary">lock</span>
+                  <span>100% Tamper Verification</span>
+                </div>
+              </div>
+
+            </aside>
+
+            <!-- Right Main Grid -->
+            <div class="lg:col-span-9 space-y-6">
+              
+              <!-- Status bar -->
+              <div class="flex items-center justify-between text-xs text-secondary font-label bg-surface-container-low/40 p-3 rounded-lg border border-outline-variant/30">
+                <p>Displaying <span class="font-semibold text-on-surface" id="visibleCount">0</span> of <span class="font-semibold text-on-surface" id="totalCount">0</span> verified hardware references</p>
+                <div class="flex items-center gap-3">
+                  <span class="hidden sm:inline text-[11px] uppercase tracking-wider">Provenance State:</span>
+                  <span class="inline-flex items-center gap-1.5 text-on-surface font-medium bg-surface-container-low px-2.5 py-1 rounded-md text-[11px]">
+                    <span class="w-2 h-2 rounded-full bg-primary"></span> OEM Direct Certified
+                  </span>
+                </div>
+              </div>
+
+              <!-- Product Cards Grid -->
+              <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="productsGrid">
+                <!-- Dynamically Rendered Products -->
+              </div>
+
+              <!-- Empty Results View -->
+              <div class="hidden py-16 text-center space-y-4 bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/40" id="emptyState">
+                <div class="w-16 h-16 rounded-full bg-surface-container mx-auto flex items-center justify-center text-secondary">
+                  <span class="material-symbols-outlined text-3xl">filter_alt_off</span>
+                </div>
+                <h3 class="font-headline text-2xl text-on-surface font-normal">No Hardware Matched Filters</h3>
+                <p class="text-xs text-on-surface-variant max-w-md mx-auto font-light">
+                  No devices in our active vault allocation matched your chosen price or specification criteria. Try resetting the filters.
+                </p>
+                <button class="px-5 py-2.5 rounded-lg bg-primary text-on-primary text-xs font-semibold hover:bg-primary/90 transition-colors shadow-sm" onclick="resetFilters()">
+                  Reset All Filters
+                </button>
+              </div>
+
+            </div>
+
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="w-full bg-surface-container-low mt-auto border-t border-outline-variant/60">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16">
+      <div class="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-on-surface-variant font-light">
+        <p>© 2024 Rishabh Communication. Licensed Flagship Tech Boutique. All rights reserved.</p>
+        <div class="flex items-center gap-8">
+          <a class="hover:text-on-surface transition-colors" href="index.html">Home</a>
+          <a class="hover:text-on-surface transition-colors" href="catalog.html">Full Fleet</a>
+          <a class="hover:text-on-surface transition-colors" href="profile.html">VIP Account</a>
+          <a class="hover:text-on-surface transition-colors" href="index.html#specialist-concierge">Concierge</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // State
+    let currentCategory = 'all';
+    let selectedBrands = [];
+    let maxPrice = 160000;
+    let sortBy = 'featured';
+    let searchQuery = '';
+
+    const CATEGORY_NAMES = {
+      'all': 'All Editions',
+      'smartphones': 'Smartphone',
+      'smartwatches': 'Smartwatch',
+      'earbuds': 'Earbuds',
+      'headphones': 'Headphones',
+      'powerbanks': 'Powerbank',
+      'chargers': 'Charger'
+    };
+
+    function getCategoryDisplayName(cat) {
+      return CATEGORY_NAMES[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1));
+    }
+
+    // Initialize counts and brand options
+    function initFilters() {
+      // Counts per category
+      document.getElementById('count-all').textContent = MOCK_PRODUCTS.length;
+      ['smartphones', 'smartwatches', 'earbuds', 'headphones', 'powerbanks', 'chargers'].forEach(cat => {
+        const count = MOCK_PRODUCTS.filter(p => p.category === cat).length;
+        const el = document.getElementById(`count-${cat}`);
+        if (el) el.textContent = count;
+      });
+
+      // Distinct authorized brands in standard order
+      const priorityBrands = ['Apple', 'Samsung', 'Oppo', 'Vivo', 'Motorola'];
+      const presentBrands = [...new Set(MOCK_PRODUCTS.map(p => p.brand))];
+      const allBrands = [...priorityBrands.filter(b => presentBrands.includes(b)), ...presentBrands.filter(b => !priorityBrands.includes(b))];
+
+      const container = document.getElementById('brandFilterContainer');
+      container.innerHTML = allBrands.map(brand => {
+        const count = MOCK_PRODUCTS.filter(p => p.brand === brand).length;
+        return `
+          <label class="flex items-center justify-between cursor-pointer group select-none py-1">
+            <span class="flex items-center gap-2.5">
+              <input class="w-4 h-4 rounded accent-primary cursor-pointer brand-checkbox" type="checkbox" value="${brand}" id="brand-cb-${brand.toLowerCase()}" onchange="handleBrandChange(this)"/>
+              <span class="group-hover:text-primary transition-colors font-medium">${brand.toUpperCase()}</span>
+            </span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-surface-container text-secondary">${count}</span>
+          </label>
+        `;
+      }).join('');
+
+      // Check URL query params (?category=..., ?brand=..., ?q=...)
+      const urlParams = new URLSearchParams(window.location.search);
+      let urlCategory = urlParams.get('category');
+      const urlBrand = urlParams.get('brand') || urlParams.get('company');
+      const urlQuery = urlParams.get('q');
+
+      // Normalize category alias
+      if (urlCategory) {
+        if (urlCategory === 'smartphone') urlCategory = 'smartphones';
+        if (urlCategory === 'smartwatch' || urlCategory === 'wearables') urlCategory = 'smartwatches';
+        if (urlCategory === 'earbud') urlCategory = 'earbuds';
+        if (urlCategory === 'headphone' || urlCategory === 'audio') urlCategory = 'headphones';
+        if (urlCategory === 'powerbank') urlCategory = 'powerbanks';
+        if (urlCategory === 'charger' || urlCategory === 'armor') urlCategory = 'chargers';
+        currentCategory = urlCategory;
+        updateActiveCategoryTab(urlCategory);
+      }
+
+      // Normalize and select brand from URL
+      if (urlBrand) {
+        const cleanBrand = urlBrand.trim().toLowerCase();
+        let matchedBrand = allBrands.find(b => b.toLowerCase() === cleanBrand);
+        // Handle "MOTOROLLA" spelling variation with double L
+        if (!matchedBrand && cleanBrand.includes('motorol')) {
+          matchedBrand = allBrands.find(b => b.toLowerCase() === 'motorola');
+        }
+        if (matchedBrand) {
+          selectedBrands = [matchedBrand];
+          const cb = document.getElementById(`brand-cb-${matchedBrand.toLowerCase()}`);
+          if (cb) cb.checked = true;
+        }
+      }
+
+      if (urlQuery) {
+        searchQuery = urlQuery.toLowerCase();
+        document.getElementById('catalogSearchInput').value = urlQuery;
+      }
+
+      // Event listeners for category buttons
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentCategory = btn.getAttribute('data-category');
+          updateActiveCategoryTab(currentCategory);
+          updateDedicatedBanner();
+          renderCatalog();
+        });
+      });
+
+      const priceSlider = document.getElementById('priceRange');
+      priceSlider.addEventListener('input', (e) => {
+        maxPrice = Number(e.target.value);
+        document.getElementById('priceDisplay').textContent = `Up to ${formatINR(maxPrice)}`;
+        renderCatalog();
+      });
+
+      document.getElementById('sortSelect').addEventListener('change', (e) => {
+        sortBy = e.target.value;
+        renderCatalog();
+      });
+
+      document.getElementById('catalogSearchInput').addEventListener('input', (e) => {
+        searchQuery = e.target.value.trim().toLowerCase();
+        renderCatalog();
+      });
+
+      ['filterInStock', 'filterOemSealed', 'filterVipSetup'].forEach(id => {
+        document.getElementById(id).addEventListener('change', renderCatalog);
+      });
+
+      updateDedicatedBanner();
+      renderCatalog();
+    }
+
+    function updateDedicatedBanner() {
+      const banner = document.getElementById('dedicatedSelectionBanner');
+      const badgeText = document.getElementById('dedicatedBadgeText');
+      const mainTitle = document.getElementById('catalogMainTitle');
+      const mainSubtitle = document.getElementById('catalogMainSubtitle');
+
+      const hasCategory = currentCategory !== 'all';
+      const hasBrands = selectedBrands.length > 0;
+
+      if (hasCategory || hasBrands) {
+        banner.classList.remove('hidden');
+        banner.classList.add('inline-flex');
+
+        const catName = getCategoryDisplayName(currentCategory);
+        const brandNames = hasBrands ? selectedBrands.map(b => b.toUpperCase()).join(' & ') : 'ALL BRANDS';
+        
+        badgeText.textContent = `DEDICATED FLEET: ${brandNames} • ${catName.toUpperCase()}`;
+
+        if (hasBrands && hasCategory) {
+          mainTitle.innerHTML = `Official <span class="italic font-normal text-primary">${brandNames}</span> ${catName} Collection`;
+          mainSubtitle.textContent = `Showing all verified authentic ${brandNames} ${catName} models sourced direct from OEM flagship channels with zero claims history and official warranty.`;
+        } else if (hasBrands) {
+          mainTitle.innerHTML = `Official <span class="italic font-normal text-primary">${brandNames}</span> Authorized Fleet`;
+          mainSubtitle.textContent = `Explore serialized, factory-sealed hardware across all categories manufactured by ${brandNames}.`;
+        } else {
+          mainTitle.innerHTML = `Curated Portfolios: <span class="italic font-normal text-primary">${catName}</span>`;
+          mainSubtitle.textContent = `Browse verified ${catName} hardware allocations available for immediate metro dispatch or doorstep setup.`;
+        }
+      } else {
+        banner.classList.add('hidden');
+        banner.classList.remove('inline-flex');
+        mainTitle.innerHTML = `Curated Portfolios of <span class="italic font-normal text-primary">Precision</span> Technology.`;
+        mainSubtitle.textContent = `Discover factory-sealed flagship smartphones, smartwatches, earbuds, headphones, and verified power utilities. Every unit is cataloged with tamper-evident serial provenance and direct tier-1 manufacturer warranty.`;
+      }
+    }
+
+    function updateActiveCategoryTab(category) {
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        if (btn.getAttribute('data-category') === category) {
+          btn.className = 'cat-pill active px-5 py-2.5 rounded-lg text-xs font-label font-semibold tracking-wide transition-all bg-primary text-on-primary shadow-sm';
+        } else {
+          btn.className = 'cat-pill px-5 py-2.5 rounded-lg text-xs font-label font-medium tracking-wide transition-all bg-surface-container hover:bg-surface-container-high text-on-surface-variant';
+        }
+      });
+    }
+
+    function handleBrandChange(checkbox) {
+      if (checkbox.checked) {
+        selectedBrands.push(checkbox.value);
+      } else {
+        selectedBrands = selectedBrands.filter(b => b !== checkbox.value);
+      }
+      updateDedicatedBanner();
+      renderCatalog();
+    }
+
+    function resetFilters() {
+      currentCategory = 'all';
+      selectedBrands = [];
+      maxPrice = 160000;
+      sortBy = 'featured';
+      searchQuery = '';
+      
+      document.getElementById('priceRange').value = 160000;
+      document.getElementById('priceDisplay').textContent = 'Up to ₹1,60,000';
+      document.getElementById('sortSelect').value = 'featured';
+      document.getElementById('catalogSearchInput').value = '';
+      
+      document.querySelectorAll('.brand-checkbox').forEach(cb => cb.checked = false);
+      ['filterInStock', 'filterOemSealed', 'filterVipSetup'].forEach(id => {
+        document.getElementById(id).checked = false;
+      });
+
+      updateActiveCategoryTab('all');
+      updateDedicatedBanner();
+      renderCatalog();
+    }
+
+    function renderCatalog() {
+      const inStockOnly = document.getElementById('filterInStock').checked;
+      const oemSealedOnly = document.getElementById('filterOemSealed').checked;
+      const vipSetupOnly = document.getElementById('filterVipSetup').checked;
+
+      let filtered = MOCK_PRODUCTS.filter(product => {
+        // Category matching
+        if (currentCategory !== 'all') {
+          // Allow smartwatches to match wearables, earbuds/headphones to match audio if requested
+          if (product.category !== currentCategory) {
+            return false;
+          }
+        }
+        
+        // Brand matching (case-insensitive for safety)
+        if (selectedBrands.length > 0) {
+          const matched = selectedBrands.some(b => b.toLowerCase() === product.brand.toLowerCase());
+          if (!matched) return false;
+        }
+
+        // Price
+        if (product.price > maxPrice) return false;
+
+        // Fulfillment checkboxes
+        if (inStockOnly && !product.inStock) return false;
+        if (oemSealedOnly && !product.oemSealed) return false;
+        if (vipSetupOnly && !product.vipSetup) return false;
+
+        // Search text
+        if (searchQuery) {
+          const matchTitle = product.title.toLowerCase().includes(searchQuery);
+          const matchDesc = product.description.toLowerCase().includes(searchQuery);
+          const matchBrand = product.brand.toLowerCase().includes(searchQuery);
+          if (!matchTitle && !matchDesc && !matchBrand) return false;
+        }
+
+        return true;
+      });
+
+        // Price
+        if (product.price > maxPrice) return false;
+
+        // Fulfillment checkboxes
+        if (inStockOnly && !product.inStock) return false;
+        if (oemSealedOnly && !product.oemSealed) return false;
+        if (vipSetupOnly && !product.vipSetup) return false;
+
+        // Search text
+        if (searchQuery) {
+          const matchTitle = product.title.toLowerCase().includes(searchQuery);
+          const matchDesc = product.description.toLowerCase().includes(searchQuery);
+          const matchBrand = product.brand.toLowerCase().includes(searchQuery);
+          if (!matchTitle && !matchDesc && !matchBrand) return false;
+        }
+
+        return true;
+      });
+
+      // Sorting
+      if (sortBy === 'price-asc') {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sortBy === 'price-desc') {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (sortBy === 'rating') {
+        filtered.sort((a, b) => b.rating - a.rating);
+      }
+
+      // Update counters
+      document.getElementById('visibleCount').textContent = filtered.length;
+      document.getElementById('totalCount').textContent = MOCK_PRODUCTS.length;
+
+      const grid = document.getElementById('productsGrid');
+      const emptyState = document.getElementById('emptyState');
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      const wishlist = Store.getWishlist();
+
+      grid.innerHTML = filtered.map(product => {
+        const isFav = wishlist.includes(product.id);
+        return `
+          <article class="group relative flex flex-col bg-surface-container-lowest/80 backdrop-blur-sm rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-outline-variant/40">
+            <!-- Image Stage -->
+            <div class="relative w-full aspect-[4/5] rounded-lg bg-surface-container-low overflow-hidden flex items-center justify-center p-4">
+              <span class="absolute top-3 left-3 z-10 text-[9px] font-label font-bold uppercase tracking-widest px-2.5 py-1 rounded bg-surface/90 text-primary backdrop-blur-sm shadow-xs">
+                ${product.provenanceBadge}
+              </span>
+              <button aria-label="Add to Wishlist" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-surface/80 hover:bg-surface ${isFav ? 'text-primary' : 'text-secondary hover:text-primary'} flex items-center justify-center transition-colors shadow-xs" onclick="toggleFav('${product.id}', this)">
+                <span class="material-symbols-outlined text-[17px] ${isFav ? 'fill' : ''}">favorite</span>
+              </button>
+              <a href="product.html?id=${product.id}" class="w-full h-full flex items-center justify-center">
+                <img alt="${product.title}" class="object-contain max-h-full max-w-full group-hover:scale-105 transition-transform duration-500 ease-out" src="${product.image}" onerror="this.src='${product.cloudFallback || 'assets/iphone_15_pro_max_natural.png'}'"/>
+              </a>
+            </div>
+
+            <!-- Content Area -->
+            <div class="flex flex-col flex-1 pt-4 justify-between space-y-4">
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between text-[11px] font-mono text-secondary">
+                  <span>${product.brand.toUpperCase()} OEM</span>
+                  <span>${product.inStock ? 'STOCK ACTIVE' : 'RESERVE'}</span>
+                </div>
+                <h3 class="font-headline text-2xl font-normal text-on-surface tracking-tight group-hover:text-primary transition-colors">
+                  <a href="product.html?id=${product.id}">${product.title}</a>
+                </h3>
+                <p class="text-xs text-on-surface-variant font-light line-clamp-2">
+                  ${product.description}
+                </p>
+              </div>
+
+              <!-- Price & CTA -->
+              <div class="pt-2 border-t border-outline-variant/30 flex items-center justify-between gap-3">
+                <div>
+                  <span class="text-[10px] font-label text-secondary uppercase tracking-widest block">Authorized Price</span>
+                  <span class="font-headline text-2xl font-semibold text-on-surface tracking-tight">${formatINR(product.price)}</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <a href="${product.whatsapp_order_link || ('https://wa.me/' + ((window.RC_CONFIG && window.RC_CONFIG.clean_phone) || '919876543210') + '?text=' + encodeURIComponent('Hi Rishabh Communication! I am interested in: ' + product.title + ' (Price: ' + formatINR(product.price) + '). Is it available?'))}" target="_blank" rel="noopener noreferrer" aria-label="Inquire on WhatsApp" class="p-2 rounded-lg bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#128C7E] dark:text-[#25D366] transition-colors shadow-xs flex items-center justify-center" title="Chat on WhatsApp">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                  </a>
+                  <a href="product.html?id=${product.id}" class="px-3.5 py-2 text-xs font-label font-semibold rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors shadow-xs">
+                    View
+                  </a>
+                  <button aria-label="Add to Cart" class="p-2 rounded-lg bg-primary text-on-primary hover:bg-primary/90 transition-colors shadow-xs" onclick="quickAdd('${product.id}')">
+                    <span class="material-symbols-outlined text-[19px]">shopping_bag</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function quickAdd(productId) {
+      const product = MOCK_PRODUCTS.find(p => p.id === productId);
+      if (product) {
+        Store.addToCart(product);
+        showToast('Added to Vault Bag', `${product.title} added to your bag.`);
+        toggleCartDrawer(true);
+      }
+    }
+
+    function toggleFav(productId, btn) {
+      const res = Store.toggleWishlist(productId);
+      const icon = btn.querySelector('.material-symbols-outlined');
+      if (res.added) {
+        btn.classList.add('text-primary');
+        btn.classList.remove('text-secondary');
+        icon.classList.add('fill');
+        showToast('Saved to Wishlist', 'Item added to your curated tracking list.');
+      } else {
+        btn.classList.remove('text-primary');
+        btn.classList.add('text-secondary');
+        icon.classList.remove('fill');
+        showToast('Removed from Wishlist', 'Item removed from your list.');
+      }
+    }
+
+    async function syncCatalogWithBackend() {
+      try {
+        const apiBase = (window.RC_CONFIG && window.RC_CONFIG.api_base) || 'http://127.0.0.1:8000';
+        const res = await fetch(`${apiBase}/api/products?limit=250`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.items && data.items.length > 0) {
+            const catMap = {
+              1: 'smartphones',
+              2: 'chargers',
+              3: 'earbuds',
+              4: 'headphones',
+              5: 'powerbanks',
+              6: 'smartwatches'
+            };
+            data.items.forEach(item => {
+              const existing = MOCK_PRODUCTS.find(p => p.title.toLowerCase() === item.name.toLowerCase() || p.id === `prod-${item.id}`);
+              if (existing) {
+                existing.price = item.price;
+                existing.inStock = item.in_stock;
+                existing.whatsapp_order_link = item.whatsapp_order_link;
+              } else {
+                MOCK_PRODUCTS.push({
+                  id: `prod-${item.id}`,
+                  title: item.name,
+                  shortTitle: item.name.split(' (')[0],
+                  category: catMap[item.category_id] || 'smartphones',
+                  brand: item.brand,
+                  price: item.price,
+                  originalPrice: item.mrp || (item.price * 1.15),
+                  rating: 4.8,
+                  reviewsCount: 14,
+                  modelNumber: item.model_number || 'Direct Allocation',
+                  provenanceBadge: 'Verified Live Stock',
+                  tagline: item.description || 'Authorized OEM unit.',
+                  description: item.description || 'Official Indian unit with manufacturer sealed box & warranty.',
+                  image: item.image_url ? `${apiBase}${item.image_url}` : 'assets/iphone_15_pro_max_natural.png',
+                  inStock: item.in_stock,
+                  oemSealed: true,
+                  vipSetup: true,
+                  batch: 'RC-2024-LIVE',
+                  whatsapp_order_link: item.whatsapp_order_link
+                });
+              }
+            });
+            initFilters();
+            renderCatalog();
+          }
+        }
+      } catch (err) {
+        console.log('Catalog using standard cache:', err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initFilters();
+      syncCatalogWithBackend();
+    });
+  </script>
+</body>
+</html>
