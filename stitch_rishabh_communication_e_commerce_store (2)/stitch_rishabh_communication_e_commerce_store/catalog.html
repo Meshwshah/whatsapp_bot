@@ -427,7 +427,7 @@
       });
 
       // Distinct authorized brands in standard order
-      const priorityBrands = ['Apple', 'Samsung', 'Oppo', 'Vivo', 'Motorola'];
+      const priorityBrands = ['Samsung', 'Vivo', 'Motorola', 'Apple', 'OnePlus', 'Xiaomi'];
       const presentBrands = [...new Set(MOCK_PRODUCTS.map(p => p.brand))];
       const allBrands = [...priorityBrands.filter(b => presentBrands.includes(b)), ...presentBrands.filter(b => !priorityBrands.includes(b))];
 
@@ -769,9 +769,13 @@
               1: 'smartphones',
               2: 'chargers',
               3: 'earbuds',
-              4: 'headphones',
-              5: 'powerbanks',
-              6: 'smartwatches'
+              4: 'powerbanks',
+              5: 'smartphones',
+              6: 'smartwatches',
+              7: 'chargers',
+              8: 'smartphones',
+              9: 'smartphones',
+              10: 'smartphones'
             };
             data.items.forEach(item => {
               const existing = MOCK_PRODUCTS.find(p => p.title.toLowerCase() === item.name.toLowerCase() || p.id === `prod-${item.id}`);
