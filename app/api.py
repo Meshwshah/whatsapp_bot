@@ -168,7 +168,7 @@ def build_product_response(p: Product) -> dict:
         percent = int((savings / p.mrp) * 100)
 
     clean_store_phone = settings.STORE_PHONE.replace("+", "").replace(" ", "").replace("-", "")
-    msg = f"Hi, I am interested in {p.name} (Price: Rs.{int(p.price):,}). Is it available?"
+    msg = f"Hi Rishabh Communications! I would like to enquire about: {p.name}. Please share your best offer price, warranty, and availability!"
     wa_link = f"https://wa.me/{clean_store_phone}?text={msg.replace(' ', '%20')}"
 
     return {

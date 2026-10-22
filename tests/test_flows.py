@@ -268,3 +268,20 @@ def test_api_products_and_categories():
     book_res = client.post("/api/bookings", json=book_payload)
     assert book_res.status_code == 201
     assert "booking_number" in book_res.json()
+
+@pytest.mark.asyncio
+async def test_website_model_enquiry_flow(handler, db_session, mock_client):
+    enquiry_text = "Hi Rishabh Communications! I would like to enquire about: Samsung Galaxy M34 5G. Please share your best offer price, warranty details, and in-store availability!"
+    message_data = {
+        "type": "text",
+        "text": {"body": enquiry_text}
+    }
+
+    await handler.handle_incoming(db_session, "919988776655", message_data)
+
+    assert mock_client.send_interactive_buttons.called
+    call_args = mock_client.send_interactive_buttons.call_args[1]
+    assert "Samsung Galaxy M34" in call_args["body_text"]
+    assert "Special Offer Price" in call_args["body_text"]
+    assert "Vadodara" in call_args["body_text"]
+    assert any(btn["title"] == "📦 Hold for 24h" for btn in call_args["buttons"])

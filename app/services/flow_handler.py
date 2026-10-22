@@ -100,6 +100,37 @@ class FlowHandler:
         if text.upper().startswith("REP-") or (len(text) >= 3 and text.isdigit()):
             return await self.lookup_repair_ticket(db, from_number, text)
 
+        # -------------------------------------------------------------
+        # Website & Direct Model Enquiry Detection
+        # (Triggered when customer clicks "Enquire on WhatsApp" on website)
+        # -------------------------------------------------------------
+        if any(k in normalized for k in ["enquire", "inquire", "interested in", "price of", "offer on", "how much for"]):
+            extracted = text
+            for trigger in ["enquire about:", "enquire about", "inquire about:", "inquire about", "interested in:", "interested in", "price of", "offer on"]:
+                if trigger in normalized:
+                    idx = normalized.find(trigger) + len(trigger)
+                    extracted = text[idx:].strip()
+                    break
+
+            for sep in [".", "\n", "please", "kindly", "price", "is it"]:
+                if sep in extracted.lower():
+                    extracted = extracted[:extracted.lower().find(sep)].strip()
+
+            clean_query = extracted.split("(")[0].strip() if "(" in extracted else extracted.strip()
+
+            matched_prod = None
+            if clean_query:
+                matched_prod = db.query(Product).filter(Product.name.ilike(f"%{clean_query}%")).first()
+                if not matched_prod:
+                    words = clean_query.split()
+                    if len(words) >= 2:
+                        partial = f"{words[0]} {words[1]}"
+                        matched_prod = db.query(Product).filter(Product.name.ilike(f"%{partial}%")).first()
+
+            if matched_prod:
+                self.update_session(db, from_number, "IDLE")
+                return await self.handle_product_enquiry(db, from_number, matched_prod, text)
+
         # Fallback: treat unknown message as product search attempt, or offer menu
         results = db.query(Product).filter(
             (Product.name.ilike(f"%{text}%")) |
@@ -301,6 +332,57 @@ class FlowHandler:
             footer_text=footer_msg[:60]
         )
 
+    async def handle_product_enquiry(self, db: Session, to: str, product: Product, original_text: str = "") -> Dict[str, Any]:
+        """Respond to website model enquiries with detailed specs, offer pricing, and instant assistance."""
+        mrp = product.mrp or int(product.price * 1.15)
+        savings = int(mrp - product.price) if mrp > product.price else 0
+        discount_pct = int((savings / mrp) * 100) if savings > 0 else 0
+
+        stock_badge = "🟢 In Stock at Vadodara Store (Ready for Pickup)" if product.in_stock else "⏳ High Demand - Order Allocation Available"
+
+        specs_summary = ""
+        if product.specifications:
+            specs_summary = f"\n📋 *Key Specifications:*\n{product.specifications}\n"
+        elif product.description:
+            specs_summary = f"\n📋 *Highlights:*\n• {product.description}\n"
+
+        pricing_text = f"🔥 *Rishabh Special Offer Price:* *₹{int(product.price):,}*"
+        if savings > 0:
+            pricing_text += f"\n🏷️ *Official MRP:* ~₹{int(mrp):,}~ *(Save ₹{savings:,} • {discount_pct}% OFF)*"
+
+        body = (
+            f"👋 *Namaste! Welcome to {settings.STORE_NAME}* (Manjalpur, Vadodara)\n\n"
+            f"Thank you for enquiring about:\n"
+            f"📱 *{product.name}*\n"
+            f"🏷️ Brand: *{product.brand}*\n\n"
+            f"{pricing_text}\n"
+            f"📦 *Store Stock:* {stock_badge}\n"
+            f"🛡️ *Warranty:* {product.warranty_info or '1 Year Official Brand Warranty'}\n"
+            f"{specs_summary}\n"
+            f"🎁 *Complimentary In-Store Privileges:*\n"
+            f"• ✅ 100% Brand-Sealed Box with Serial Audit\n"
+            f"• ✅ Free 9H Screen Guard & Doorstep Data Migration\n"
+            f"• ✅ Best Exchange Value for your old smartphone\n"
+            f"• ✅ 0% Downpayment / Cardless EMI Available\n\n"
+            f"📍 *Store:* {settings.STORE_ADDRESS}\n"
+            f"⏰ *Hours:* {settings.STORE_HOURS}\n\n"
+            f"💡 _Tap *Hold for 24h* to lock this price & reserve the unit, or tap *Talk to Specialist* for further questions!_"
+        )
+
+        buttons = [
+            {"id": f"res_{product.id}", "title": "📦 Hold for 24h"},
+            {"id": "btn_staff", "title": "👨‍💼 Talk to Specialist"},
+            {"id": "btn_offers", "title": "🏷️ Other Deals"}
+        ]
+
+        return await self.client.send_interactive_buttons(
+            to=to,
+            header_text=f"Enquiry: {product.brand}",
+            body_text=body,
+            buttons=buttons,
+            footer_text=settings.STORE_NAME
+        )
+
     async def show_product_detail(self, db: Session, to: str, prod_id: int) -> Dict[str, Any]:
         """Display detailed card of a product with reservation action."""
         product = db.query(Product).filter(Product.id == prod_id).first()
@@ -339,7 +421,7 @@ class FlowHandler:
             header_text="Product Details",
             body_text=body,
             buttons=buttons,
-            footer_text="ElectroMobile Store"
+            footer_text=settings.STORE_NAME
         )
 
     async def reserve_product(self, db: Session, to: str, prod_id: int) -> Dict[str, Any]:
@@ -567,7 +649,7 @@ class FlowHandler:
             body_text=f"Found {len(results)} matching item(s) for *'{query}'*:",
             button_text="View Items",
             sections=sections,
-            footer_text="ElectroMobile Store"
+            footer_text=settings.STORE_NAME
         )
 
     async def show_store_info(self, to: str) -> Dict[str, Any]:
@@ -578,7 +660,7 @@ class FlowHandler:
             f"🏢 *Address:*\n{settings.STORE_ADDRESS}\n\n"
             f"🗺️ *Google Maps Pin:*\n{settings.STORE_MAP_LINK}\n\n"
             f"🕒 *Business Hours:*\n{settings.STORE_HOURS}\n\n"
-            f"📞 *Call / WhatsApp:* {settings.STORE_PHONE}\n"
+            f"📞 *Call / WhatsApp:* {settings.STORE_PHONE} / 0265-2644678\n"
             f"💳 *Payments Accepted:* Cash, UPI ({settings.STORE_UPI_ID}), Cards, Bajaj Finserv EMI"
         )
 
@@ -595,12 +677,13 @@ class FlowHandler:
     async def show_staff_contact(self, to: str) -> Dict[str, Any]:
         """Provide direct phone and counter staff contact options."""
         text = (
-            f"👨‍💼 *Talk to Our Store Team*\n\n"
-            f"For immediate assistance, custom quotes, or repair consultations:\n\n"
-            f"📞 *Phone Support:* {settings.STORE_PHONE}\n"
+            f"👨‍💼 *Talk to Pranavbhai & Store Specialists*\n\n"
+            f"For immediate assistance, custom pricing, smartphone exchange value, or repair consultations:\n\n"
+            f"📞 *Call Direct:* {settings.STORE_PHONE} / 0265-2644678\n"
             f"💬 *WhatsApp Desk:* {settings.STORE_PHONE}\n"
-            f"🕒 *Available:* {settings.STORE_HOURS}\n\n"
-            "Our staff will be happy to assist you directly!"
+            f"🏢 *Address:* {settings.STORE_ADDRESS}\n"
+            f"🕒 *Hours:* {settings.STORE_HOURS}\n\n"
+            "Feel free to reply right here with any questions, or tap 'Main Menu' below!"
         )
         return await self.client.send_interactive_buttons(
             to=to,
