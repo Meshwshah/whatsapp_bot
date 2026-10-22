@@ -764,11 +764,11 @@
       const totalAmount = Math.max(0, subtotal + shippingFee - discountAmount);
       const recipientName = (document.getElementById('recipientName')?.textContent || 'Aarav Sharma').trim();
       const recipientPhone = (document.getElementById('recipientPhone')?.textContent || '+91 98450 12890').trim();
-      const recipientAddress = (document.getElementById('recipientAddress')?.textContent || 'Ahmedabad, Gujarat').trim();
+      const recipientAddress = (document.getElementById('recipientAddress')?.textContent || 'Manjalpur, Vadodara, Gujarat 390011').trim();
 
       let orderId = 'RC-' + Math.floor(10000 + Math.random() * 90000);
       let waybill = 'BD-' + Math.floor(100000000 + Math.random() * 900000000);
-      let waLink = `https://wa.me/${(window.RC_CONFIG && window.RC_CONFIG.clean_phone) || '919876543210'}?text=${encodeURIComponent(`Hello Rishabh Communication! I just placed order #${orderId} on your website for Rs. ${totalAmount.toLocaleString('en-IN')}. Please confirm dispatch!`)}`;
+      let waLink = `https://wa.me/${(window.RC_CONFIG && window.RC_CONFIG.clean_phone) || '919898064467'}?text=${encodeURIComponent(`Hello Rishabh Communications! I just placed order #${orderId} on your website for Rs. ${totalAmount.toLocaleString('en-IN')}. Please confirm dispatch!`)}`;
 
       // Post to Unified Store API
       try {
@@ -778,8 +778,8 @@
           customer_phone: recipientPhone,
           customer_email: 'client@rishabhcommunication.vip',
           shipping_address: recipientAddress,
-          city: 'Ahmedabad',
-          pincode: '380015',
+          city: 'Vadodara',
+          pincode: '390011',
           items: items.map(it => ({
             id: it.id,
             title: it.title,

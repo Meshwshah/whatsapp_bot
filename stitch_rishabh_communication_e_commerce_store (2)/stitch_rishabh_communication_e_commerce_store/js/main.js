@@ -594,10 +594,10 @@ function toggleMobileNav(open = true) {
 
 // Universal WhatsApp Concierge Integration
 window.RC_CONFIG = {
-  store_name: "Rishabh Communication",
-  store_phone: "+91 98765 43210",
-  clean_phone: "919876543210",
-  whatsapp_link: "https://wa.me/919876543210?text=Hi%20Rishabh%20Communication,%20I%20need%20assistance",
+  store_name: "Rishabh Communications",
+  store_phone: "+91 98980 64467",
+  clean_phone: "919898064467",
+  whatsapp_link: "https://wa.me/919898064467?text=Hi%20Rishabh%20Communications,%20I%20need%20assistance",
   api_base: "http://127.0.0.1:8000"
 };
 
