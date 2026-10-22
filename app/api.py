@@ -227,7 +227,7 @@ def list_products(
     search: Optional[str] = None,
     is_featured: Optional[bool] = None,
     in_stock: Optional[bool] = None,
-    limit: int = Query(50, ge=1, le=200),
+    limit: int = Query(50, ge=1, le=500),
     offset: int = Query(0, ge=0),
     db: Session = Depends(get_db)
 ):
