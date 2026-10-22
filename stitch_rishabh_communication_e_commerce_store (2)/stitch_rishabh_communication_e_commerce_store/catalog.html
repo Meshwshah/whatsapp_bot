@@ -290,14 +290,14 @@
               <div class="space-y-3.5">
                 <div class="flex items-center justify-between">
                   <h4 class="text-[11px] font-label font-semibold uppercase tracking-widest text-secondary">Price Ceiling</h4>
-                  <span class="font-mono text-xs font-semibold text-primary" id="priceDisplay">Up to ₹1,60,000</span>
+                  <span class="font-mono text-xs font-semibold text-primary" id="priceDisplay">Up to ₹2,50,000</span>
                 </div>
                 <div class="space-y-2">
-                  <input class="w-full h-1.5 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary" id="priceRange" max="160000" min="500" step="1000" type="range" value="160000"/>
+                  <input class="w-full h-1.5 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary" id="priceRange" max="250000" min="500" step="1000" type="range" value="250000"/>
                   <div class="flex justify-between text-[10px] font-mono text-secondary">
                     <span>₹500</span>
-                    <span>₹80,000</span>
-                    <span>₹1,60,000</span>
+                    <span>₹1,25,000</span>
+                    <span>₹2,50,000</span>
                   </div>
                 </div>
               </div>
@@ -398,7 +398,7 @@
     // State
     let currentCategory = 'all';
     let selectedBrands = [];
-    let maxPrice = 160000;
+    let maxPrice = 250000;
     let sortBy = 'featured';
     let searchQuery = '';
 
@@ -577,12 +577,12 @@
     function resetFilters() {
       currentCategory = 'all';
       selectedBrands = [];
-      maxPrice = 160000;
+      maxPrice = 250000;
       sortBy = 'featured';
       searchQuery = '';
       
-      document.getElementById('priceRange').value = 160000;
-      document.getElementById('priceDisplay').textContent = 'Up to ₹1,60,000';
+      document.getElementById('priceRange').value = 250000;
+      document.getElementById('priceDisplay').textContent = 'Up to ₹2,50,000';
       document.getElementById('sortSelect').value = 'featured';
       document.getElementById('catalogSearchInput').value = '';
       
@@ -615,25 +615,6 @@
           const matched = selectedBrands.some(b => b.toLowerCase() === product.brand.toLowerCase());
           if (!matched) return false;
         }
-
-        // Price
-        if (product.price > maxPrice) return false;
-
-        // Fulfillment checkboxes
-        if (inStockOnly && !product.inStock) return false;
-        if (oemSealedOnly && !product.oemSealed) return false;
-        if (vipSetupOnly && !product.vipSetup) return false;
-
-        // Search text
-        if (searchQuery) {
-          const matchTitle = product.title.toLowerCase().includes(searchQuery);
-          const matchDesc = product.description.toLowerCase().includes(searchQuery);
-          const matchBrand = product.brand.toLowerCase().includes(searchQuery);
-          if (!matchTitle && !matchDesc && !matchBrand) return false;
-        }
-
-        return true;
-      });
 
         // Price
         if (product.price > maxPrice) return false;
@@ -816,10 +797,15 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        initFilters();
+        syncCatalogWithBackend();
+      });
+    } else {
       initFilters();
       syncCatalogWithBackend();
-    });
+    }
   </script>
 </body>
 </html>
