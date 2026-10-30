@@ -3,7 +3,16 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Product Details | Rishabh Communication</title>
+  <title>Authorized Mobile Specifications & Pricing | Rishabh Communications Vadodara</title>
+  <meta name="description" content="View genuine Indian specifications, warranty details, and exclusive store offer pricing at Rishabh Communications, Manjalpur, Vadodara. Direct WhatsApp enquiry."/>
+  <meta name="keywords" content="mobile phones Vadodara, smartphone specs, buy mobile Manjalpur, phone warranty Vadodara, Rishabh Communications"/>
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
+  <link rel="canonical" href="https://rishabhcommunications.in/product.html"/>
+  
+  <meta property="og:type" content="product"/>
+  <meta property="og:title" content="Authorized Mobile Hardware Details | Rishabh Communications"/>
+  <meta property="og:description" content="Factory-sealed mobile hardware with official manufacturer warranty at Rishabh Communications, Vadodara."/>
+  <meta property="og:image" content="assets/iphone_15_pro_max_natural.png"/>
   
   <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -616,7 +625,50 @@
       basePrice = currentProduct.price;
 
       // Populate basic info
-      document.title = `${currentProduct.title} | Rishabh Communication`;
+      document.title = `${currentProduct.title} - Price, Specs & Enquiry | Rishabh Communications Vadodara`;
+      
+      // Update meta description
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        metaDesc.setAttribute('content', `Buy ${currentProduct.title} in Manjalpur, Vadodara at Rishabh Communications. Verified Indian stock, manufacturer warranty, store offer price: ₹${currentProduct.price.toLocaleString('en-IN')}. Instant WhatsApp enquiry.`);
+      }
+
+      // Inject Dynamic Product Schema (Schema.org)
+      const existingSchema = document.getElementById('productDynamicSchema');
+      if (existingSchema) existingSchema.remove();
+      const schemaScript = document.createElement('script');
+      schemaScript.id = 'productDynamicSchema';
+      schemaScript.type = 'application/ld+json';
+      schemaScript.textContent = JSON.stringify({
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": currentProduct.title,
+        "image": currentProduct.image ? [new URL(currentProduct.image, window.location.origin).href] : [],
+        "description": currentProduct.description || `${currentProduct.title} authorized Indian retail unit at Rishabh Communications Vadodara.`,
+        "sku": currentProduct.id,
+        "mpn": currentProduct.modelNumber || currentProduct.id,
+        "brand": {
+          "@type": "Brand",
+          "name": currentProduct.brand
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": window.location.href,
+          "priceCurrency": "INR",
+          "price": currentProduct.price,
+          "priceValidUntil": "2027-12-31",
+          "itemCondition": "https://schema.org/NewCondition",
+          "availability": currentProduct.inStock !== false ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+          "seller": {
+            "@type": "ElectronicsStore",
+            "name": "Rishabh Communications",
+            "telephone": "+91 98980 64467",
+            "address": "GF-2, Rutukalash Complex, Manjalpur, Vadodara, Gujarat 390011"
+          }
+        }
+      });
+      document.head.appendChild(schemaScript);
+
       document.getElementById('breadcrumbTitle').textContent = currentProduct.shortTitle || currentProduct.title;
       document.getElementById('productTitle').textContent = currentProduct.title;
       document.getElementById('productBadgeOverline').textContent = currentProduct.provenanceBadge;
