@@ -598,7 +598,7 @@ window.RC_CONFIG = {
   store_phone: "+91 98980 64467",
   clean_phone: "919898064467",
   whatsapp_link: "https://wa.me/919898064467?text=Hi%20Rishabh%20Communications,%20I%20need%20assistance",
-  api_base: "http://127.0.0.1:8000"
+  api_base: (window.location.port === '3000') ? 'http://127.0.0.1:8000' : window.location.origin
 };
 
 async function loadClientConfig() {

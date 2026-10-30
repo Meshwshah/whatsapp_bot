@@ -145,3 +145,12 @@ async def receive_webhook(request: Request, db: Session = Depends(get_db)):
 
     # Always return 200 OK immediately so Meta doesn't retry message delivery
     return JSONResponse(content={"status": "EVENT_RECEIVED"}, status_code=200)
+
+# Mount frontend website directory as root static files
+frontend_dir = os.path.join(
+    os.path.dirname(os.path.dirname(__file__)),
+    "stitch_rishabh_communication_e_commerce_store (2)",
+    "stitch_rishabh_communication_e_commerce_store"
+)
+if os.path.exists(frontend_dir):
+    app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
